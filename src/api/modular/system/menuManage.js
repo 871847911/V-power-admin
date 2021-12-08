@@ -7,7 +7,7 @@ import { axios } from '@/utils/request'
  * @param parameter
  * @returns {*}
  */
-export function getMenuList (parameter) {
+export function getMenuList(parameter) {
   return axios({
     url: '/sysMenu/list',
     method: 'get',
@@ -19,9 +19,9 @@ export function getMenuList (parameter) {
  * 获取系统菜单树，用于新增，编辑时选择上级节点
  *
  * @author yubaoshan
- * @date 2020/4/23 12:22
+ * @date 2021/4/23 12:22
  */
-export function getMenuTree (parameter) {
+export function getMenuTree(parameter) {
   return axios({
     url: '/sysMenu/tree',
     method: 'get',
@@ -33,9 +33,9 @@ export function getMenuTree (parameter) {
  * 增加菜单
  *
  * @author yubaoshan
- * @date 2020/4/24 23:23
+ * @date 2021/4/24 23:23
  */
-export function sysMenuAdd (parameter) {
+export function sysMenuAdd(parameter) {
   return axios({
     url: '/sysMenu/add',
     method: 'post',
@@ -47,9 +47,9 @@ export function sysMenuAdd (parameter) {
  * 增加菜单
  *
  * @author yubaoshan
- * @date 2020/4/24 23:23
+ * @date 2021/4/24 23:23
  */
-export function sysMenuDelete (parameter) {
+export function sysMenuDelete(parameter) {
   return axios({
     url: '/sysMenu/delete',
     method: 'post',
@@ -61,9 +61,9 @@ export function sysMenuDelete (parameter) {
  * 查看菜单详情
  *
  * @author yubaoshan
- * @date 2020/4/25 01:11
+ * @date 2021/4/25 01:11
  */
-export function sysMenuDetail (parameter) {
+export function sysMenuDetail(parameter) {
   return axios({
     url: '/sysMenu/detail',
     method: 'post',
@@ -75,9 +75,9 @@ export function sysMenuDetail (parameter) {
  * 编辑系统菜单
  *
  * @author yubaoshan
- * @date 2020/4/25 01:11
+ * @date 2021/4/25 01:11
  */
-export function sysMenuEdit (parameter) {
+export function sysMenuEdit(parameter) {
   return axios({
     url: '/sysMenu/edit',
     method: 'post',
@@ -89,9 +89,9 @@ export function sysMenuEdit (parameter) {
  * 获取系统菜单树，用于给角色授权时选择
  *
  * @author yubaoshan
- * @date 2020/6/2 17:30
+ * @date 2021/6/2 17:30
  */
-export function SysMenuTreeForGrant (parameter) {
+export function SysMenuTreeForGrant(parameter) {
   return axios({
     url: '/sysMenu/treeForGrant',
     method: 'get',
@@ -103,9 +103,9 @@ export function SysMenuTreeForGrant (parameter) {
  * 根据系统切换菜单
  *
  * @author yubaoshan
- * @date 2020/6/28 15:25
+ * @date 2021/6/28 15:25
  */
-export function sysMenuChange (parameter) {
+export function sysMenuChange(parameter) {
   return axios({
     url: '/sysMenu/change',
     method: 'post',

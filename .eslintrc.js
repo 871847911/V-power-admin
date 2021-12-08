@@ -12,13 +12,12 @@ module.exports = {
     'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
     'generator-star-spacing': 'off',
     'no-mixed-operators': 0,
-    'vue/max-attributes-per-line': [
-      2,
+    "vue/max-attributes-per-line": [1,
       {
-        'singleline': 5,
-        'multiline': {
-          'max': 1,
-          'allowFirstLine': false
+        "singleline": 4,
+        "multiline": {
+          "max": 1,
+          "allowFirstLine": true
         }
       }
     ],

@@ -1,9 +1,8 @@
 <template>
   <div class="footer">
-    <div class="links">
-    </div>
+    <div class="links"></div>
     <div class="copyright">
-      Copyright © 2020 <a target="_blank" href="https://www.xiaonuo.vip/">小诺</a> All rights reserved. Snowy 1.3
+      Copyright © 2021 宿v次方-后台管理系统
     </div>
   </div>
 </template>
@@ -11,7 +10,7 @@
 <script>
 export default {
   name: 'GlobalFooter',
-  data () {
+  data() {
     return {}
   }
 }

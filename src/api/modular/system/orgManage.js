@@ -4,9 +4,9 @@ import { axios } from '@/utils/request'
  * 获取机构树
  *
  * @author yubaoshan
- * @date 2020/4/26 12:08
+ * @date 2021/4/26 12:08
  */
-export function getOrgTree (parameter) {
+export function getOrgTree(parameter) {
   return axios({
     url: '/sysOrg/tree',
     method: 'get',
@@ -18,9 +18,9 @@ export function getOrgTree (parameter) {
  * 获取机构列表
  *
  * @author yubaoshan
- * @date 2020/5/11 12:59
+ * @date 2021/5/11 12:59
  */
-export function getOrgList (parameter) {
+export function getOrgList(parameter) {
   return axios({
     url: '/sysOrg/list',
     method: 'get',
@@ -32,9 +32,9 @@ export function getOrgList (parameter) {
  * 获取机构列表
  *
  * @author yubaoshan
- * @date 2020/5/11 16:17
+ * @date 2021/5/11 16:17
  */
-export function getOrgPage (parameter) {
+export function getOrgPage(parameter) {
   return axios({
     url: '/sysOrg/page',
     method: 'get',
@@ -46,9 +46,9 @@ export function getOrgPage (parameter) {
  * 新增机构
  *
  * @author yubaoshan
- * @date 2020/5/11 13:56
+ * @date 2021/5/11 13:56
  */
-export function sysOrgAdd (parameter) {
+export function sysOrgAdd(parameter) {
   return axios({
     url: '/sysOrg/add',
     method: 'post',
@@ -60,9 +60,9 @@ export function sysOrgAdd (parameter) {
  * 编辑机构
  *
  * @author yubaoshan
- * @date 2020/5/11 13:56
+ * @date 2021/5/11 13:56
  */
-export function sysOrgEdit (parameter) {
+export function sysOrgEdit(parameter) {
   return axios({
     url: '/sysOrg/edit',
     method: 'post',
@@ -74,9 +74,9 @@ export function sysOrgEdit (parameter) {
  * 删除机构
  *
  * @author yubaoshan
- * @date 2020/5/11 12:59
+ * @date 2021/5/11 12:59
  */
-export function sysOrgDelete (parameter) {
+export function sysOrgDelete(parameter) {
   return axios({
     url: '/sysOrg/delete',
     method: 'post',
@@ -90,7 +90,7 @@ export function sysOrgDelete (parameter) {
  * @author yubaoshan
  * @date 2021/5/30 12:58
  */
-export function sysOrgExport (parameter) {
+export function sysOrgExport(parameter) {
   return axios({
     url: '/sysOrg/export',
     method: 'get',

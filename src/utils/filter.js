@@ -24,7 +24,7 @@ Vue.filter('moment', function (dataStr, pattern = 'YYYY-MM-DD HH:mm:ss') {
  * 金额格式化 ，使用方法：{{ val | Fmoney }}
  *
  * @author yubaoshan
- * @date 2020-9-15 15:02:20
+ * @date 2021-9-15 15:02:20
  */
 Vue.filter('Fmoney', function (val) {
   // eslint-disable-next-line no-useless-escape
@@ -51,7 +51,7 @@ Vue.filter('Fmoney', function (val) {
  * 翻译使用方法，直接返回翻译后的name {{ code | dictType(value) }}
  *
  * @author yubaoshan
- * @date 2020-9-15 15:02:20
+ * @date 2021-9-15 15:02:20
  */
 Vue.filter('dictType', function (code, value) {
   const dictTypeTree = Vue.ls.get(DICT_TYPE_TREE_DATA)
@@ -75,7 +75,7 @@ Vue.filter('dictType', function (code, value) {
  * 获取某个code下字典的列表，多用于字典下拉框，使用方法：{{ code | dictData }}
  *
  * @author yubaoshan
- * @date 2020-9-19 22:40:22
+ * @date 2021-9-19 22:40:22
  */
 Vue.filter('dictData', function (code) {
   const dictTypeTree = Vue.ls.get(DICT_TYPE_TREE_DATA)

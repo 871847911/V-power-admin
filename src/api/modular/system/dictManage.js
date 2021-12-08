@@ -4,9 +4,9 @@ import { axios } from '@/utils/request'
  * 分页查询系统字典类型
  *
  * @author yubaoshan
- * @date 2020/5/17 01:46
+ * @date 2021/5/17 01:46
  */
-export function sysDictTypePage (parameter) {
+export function sysDictTypePage(parameter) {
   return axios({
     url: '/sysDictType/page',
     method: 'get',
@@ -18,9 +18,9 @@ export function sysDictTypePage (parameter) {
  * 添加系统字典类型
  *
  * @author yubaoshan
- * @date 2020/5/17 01:46
+ * @date 2021/5/17 01:46
  */
-export function sysDictTypeAdd (parameter) {
+export function sysDictTypeAdd(parameter) {
   return axios({
     url: '/sysDictType/add',
     method: 'post',
@@ -32,9 +32,9 @@ export function sysDictTypeAdd (parameter) {
  * 编辑系统字典类型
  *
  * @author yubaoshan
- * @date 2020/5/17 01:50
+ * @date 2021/5/17 01:50
  */
-export function sysDictTypeEdit (parameter) {
+export function sysDictTypeEdit(parameter) {
   return axios({
     url: '/sysDictType/edit',
     method: 'post',
@@ -46,9 +46,9 @@ export function sysDictTypeEdit (parameter) {
  * 删除系统字典类型
  *
  * @author yubaoshan
- * @date 2020/5/17 01:50
+ * @date 2021/5/17 01:50
  */
-export function sysDictTypeDelete (parameter) {
+export function sysDictTypeDelete(parameter) {
   return axios({
     url: '/sysDictType/delete',
     method: 'post',
@@ -60,9 +60,9 @@ export function sysDictTypeDelete (parameter) {
  * 获取字典类型下所有字典，举例，返回格式为：[{code:"M",value:"男"},{code:"F",value:"女"}]
  *
  * @author yubaoshan
- * @date 2020/6/10 00:10
+ * @date 2021/6/10 00:10
  */
-export function sysDictTypeDropDown (parameter) {
+export function sysDictTypeDropDown(parameter) {
   return axios({
     url: '/sysDictType/dropDown',
     method: 'get',
@@ -74,9 +74,9 @@ export function sysDictTypeDropDown (parameter) {
  * 获取所有字典，启动时加入缓存使用
  *
  * @author yubaoshan
- * @date 2020/6/10 00:10
+ * @date 2021/6/10 00:10
  */
-export function sysDictTypeTree (parameter) {
+export function sysDictTypeTree(parameter) {
   return axios({
     url: '/sysDictType/tree',
     method: 'get',

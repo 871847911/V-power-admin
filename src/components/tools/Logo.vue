@@ -1,6 +1,6 @@
 <template>
   <div class="logo">
-    <router-link :to="{name:'Console'}">
+    <router-link :to="{ name: 'Console' }">
       <LogoSvg alt="logo" />
       <h1 v-if="showTitle">{{ this.titles }}</h1>
     </router-link>
@@ -17,7 +17,7 @@ export default {
     LogoSvg
   },
   mixins: [mixin, mixinDevice],
-  data () {
+  data() {
     return {
       titles: ''
     }
@@ -25,7 +25,7 @@ export default {
   props: {
     title: {
       type: String,
-      default: 'Snowy',
+      default: '宿v次方',
       required: false
     },
     showTitle: {
@@ -34,7 +34,7 @@ export default {
       required: false
     }
   },
-  created () {
+  created() {
     if (this.layoutMode === 'topmenu') {
       if (this.title.length > 8) {
         this.titles = this.title.substring(0, 7) + '...'

@@ -4,9 +4,9 @@ import { axios } from '@/utils/request'
  * 查询系统字典值
  *
  * @author yubaoshan
- * @date 2020/5/17 02:24
+ * @date 2021/5/17 02:24
  */
-export function sysDictDataPage (parameter) {
+export function sysDictDataPage(parameter) {
   return axios({
     url: '/sysDictData/page',
     method: 'get',
@@ -18,9 +18,9 @@ export function sysDictDataPage (parameter) {
  * 添加系统字典值
  *
  * @author yubaoshan
- * @date 2020/5/17 02:24
+ * @date 2021/5/17 02:24
  */
-export function sysDictDataAdd (parameter) {
+export function sysDictDataAdd(parameter) {
   return axios({
     url: '/sysDictData/add',
     method: 'post',
@@ -32,9 +32,9 @@ export function sysDictDataAdd (parameter) {
  * 编辑系统字典值
  *
  * @author yubaoshan
- * @date 2020/5/17 02:25
+ * @date 2021/5/17 02:25
  */
-export function sysDictDataEdit (parameter) {
+export function sysDictDataEdit(parameter) {
   return axios({
     url: '/sysDictData/edit',
     method: 'post',
@@ -46,9 +46,9 @@ export function sysDictDataEdit (parameter) {
  * 删除系统字典值
  *
  * @author yubaoshan
- * @date 2020/5/17 02:25
+ * @date 2021/5/17 02:25
  */
-export function sysDictDataDelete (parameter) {
+export function sysDictDataDelete(parameter) {
   return axios({
     url: '/sysDictData/delete',
     method: 'post',
