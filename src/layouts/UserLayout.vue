@@ -5,7 +5,7 @@
         <div class="header">
           <a href="/">
             <img src="~@/assets/logo.png" class="logo" alt="logo" />
-            <span class="title">宿v次方-后台管理系统</span>
+            <span class="title">宿V次方-后台管理系统</span>
           </a>
         </div>
         <div class="desc"></div>
@@ -20,7 +20,7 @@
           <a href="_self">条款</a>
         </div> -->
         <div class="copyright">
-          Copyright © 2021 宿v次方-后台管理系统
+          Copyright © 2021 宿V次方-后台管理系统
         </div>
       </div>
     </div>

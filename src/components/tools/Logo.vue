@@ -25,7 +25,7 @@ export default {
   props: {
     title: {
       type: String,
-      default: '宿v次方',
+      default: '宿V次方',
       required: false
     },
     showTitle: {
