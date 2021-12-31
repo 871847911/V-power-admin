@@ -130,6 +130,20 @@
           >确定</a-button
         >
       </a-form-item>
+
+      <!-- <div class="user-login-other">
+        <span>其他登录方式</span>
+        <a>
+          <a-icon class="item-icon" type="alipay-circle"></a-icon>
+        </a>
+        <a>
+          <a-icon class="item-icon" type="taobao-circle"></a-icon>
+        </a>
+        <a>
+          <a-icon class="item-icon" type="weibo-circle"></a-icon>
+        </a>
+        <router-link class="register" :to="{ name: 'register' }">注册账户</router-link>
+      </div> -->
     </a-form>
 
     <two-step-captcha
@@ -244,11 +258,12 @@ export default {
           }
           const loginParams = { ...values }
           delete loginParams.account
-          loginParams[!state.loginType ? 'email' : 'account'] = values.account
-          loginParams.password = values.password
+          loginParams.account = values.account
+
           if (this.tenantOpen) {
             loginParams.tenantCode = values.tenantCode
           }
+
           Login(loginParams)
             .then(res => this.loginSuccess(res))
             .catch(err => this.requestFailed(err))
@@ -267,6 +282,7 @@ export default {
      */
     verifySuccess(params) {
       this.loginParams.code = params.captchaVerification
+      console.log(JSON.stringify(this.loginParams))
       this.Login(this.loginParams)
         .then(res => this.loginSuccess(res))
         .catch(err => this.requestFailed(err))

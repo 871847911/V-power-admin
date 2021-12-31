@@ -1,6 +1,6 @@
 import store from '@/store'
 
-export function actionToObject(json) {
+export function actionToObject (json) {
   try {
     return JSON.parse(json)
   } catch (e) {
@@ -13,14 +13,14 @@ export function actionToObject(json) {
  * 控制按钮是否显示
  *
  * @author yubaoshan
- * @date 2021/06/27 02:34
+ * @date 2020/06/27 02:34
  */
-export function hasBtnPermission(permission) {
+export function hasBtnPermission (permission) {
   const myBtns = store.getters.buttons
   const admintype = store.getters.admintype
   // eslint-disable-next-line eqeqeq
   if (admintype == '1') {
-    return true
+     return true
   }
   return myBtns.indexOf(permission) > -1
 }

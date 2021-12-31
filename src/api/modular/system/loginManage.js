@@ -2,7 +2,7 @@
  * 系统应用
  *
  * @author yubaoshan
- * @date 2021/5/26 19:06
+ * @date 2020/5/26 19:06
  */
 import { axios } from '@/utils/request'
 
@@ -10,9 +10,15 @@ import { axios } from '@/utils/request'
  * 登录
  *
  * @author yubaoshan
- * @date 2021/5/26 19:06
+ * @date 2020/5/26 19:06
  */
-export function login(parameter) {
+export function login (parameter) {
+  // 密码采用sm2加密传输密码
+  const sm2 = require('sm-crypto').sm2
+  const publicKey = '04298364ec840088475eae92a591e01284d1abefcda348b47eb324bb521bb03b0b2a5bc393f6b71dabb8f15c99a0050818b56b23f31743b93df9cf8948f15ddb54'
+  const encryptData = sm2.doEncrypt(parameter.password, publicKey, 1)
+  parameter.password = encryptData
+
   return axios({
     url: '/login',
     method: 'post',
@@ -24,9 +30,9 @@ export function login(parameter) {
  * 登出
  *
  * @author yubaoshan
- * @date 2021/5/26 19:07
+ * @date 2020/5/26 19:07
  */
-export function logout(parameter) {
+export function logout (parameter) {
   return axios({
     url: '/logout',
     method: 'get',
@@ -38,9 +44,9 @@ export function logout(parameter) {
  * 获取登录用户信息
  *
  * @author yubaoshan
- * @date 2021/5/26 19:08
+ * @date 2020/5/26 19:08
  */
-export function getLoginUser(parameter) {
+export function getLoginUser (parameter) {
   return axios({
     url: '/getLoginUser',
     method: 'get',
@@ -52,9 +58,9 @@ export function getLoginUser(parameter) {
  * 获取租户开关
  *
  * @author yubaoshan
- * @date 2021/9/5 1:24
+ * @date 2020/9/5 1:24
  */
-export function getTenantOpen(parameter) {
+export function getTenantOpen (parameter) {
   return axios({
     url: '/getTenantOpen',
     method: 'get',
@@ -66,9 +72,9 @@ export function getTenantOpen(parameter) {
  * 获取短信验证码
  *
  * @author yubaoshan
- * @date 2021/5/26 19:29
+ * @date 2020/5/26 19:29
  */
-export function getSmsCaptcha(parameter) {
+export function getSmsCaptcha (parameter) {
   return axios({
     url: '/getSmsCaptcha',
     method: 'get',
@@ -82,7 +88,7 @@ export function getSmsCaptcha(parameter) {
  * @author Jax
  * @date 2021/1/22 00:00
  */
-export function getCaptchaOpen(parameter) {
+export function getCaptchaOpen (parameter) {
   return axios({
     url: '/getCaptchaOpen',
     method: 'get',

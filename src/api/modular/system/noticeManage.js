@@ -4,9 +4,9 @@ import { axios } from '@/utils/request'
  * 查询系统通知公告
  *
  * @author yubaoshan
- * @date 2021/6/30 01:56
+ * @date 2020/6/30 01:56
  */
-export function sysNoticePage(parameter) {
+export function sysNoticePage (parameter) {
   return axios({
     url: '/sysNotice/page',
     method: 'get',
@@ -18,9 +18,9 @@ export function sysNoticePage(parameter) {
  * 添加系统通知公告
  *
  * @author yubaoshan
- * @date 2021/6/30 01:56
+ * @date 2020/6/30 01:56
  */
-export function sysNoticeAdd(parameter) {
+export function sysNoticeAdd (parameter) {
   return axios({
     url: '/sysNotice/add',
     method: 'post',
@@ -32,9 +32,9 @@ export function sysNoticeAdd(parameter) {
  * 编辑系统通知公告
  *
  * @author yubaoshan
- * @date 2021/6/30 01:56
+ * @date 2020/6/30 01:56
  */
-export function sysNoticeEdit(parameter) {
+export function sysNoticeEdit (parameter) {
   return axios({
     url: '/sysNotice/edit',
     method: 'post',
@@ -46,9 +46,9 @@ export function sysNoticeEdit(parameter) {
  * 删除系统通知公告
  *
  * @author yubaoshan
- * @date 2021/6/30 01:56
+ * @date 2020/6/30 01:56
  */
-export function sysNoticeDelete(parameter) {
+export function sysNoticeDelete (parameter) {
   return axios({
     url: '/sysNotice/delete',
     method: 'post',
@@ -60,9 +60,9 @@ export function sysNoticeDelete(parameter) {
  * 通知公告详情
  *
  * @author yubaoshan
- * @date 2021/6/30 01:56
+ * @date 2020/6/30 01:56
  */
-export function sysNoticeDetail(parameter) {
+export function sysNoticeDetail (parameter) {
   return axios({
     url: '/sysNotice/detail',
     method: 'get',
@@ -74,9 +74,9 @@ export function sysNoticeDetail(parameter) {
  * 修改状态
  *
  * @author yubaoshan
- * @date 2021/7/30 02:23
+ * @date 2020/7/30 02:23
  */
-export function sysNoticeChangeStatus(parameter) {
+export function sysNoticeChangeStatus (parameter) {
   return axios({
     url: '/sysNotice/changeStatus',
     method: 'post',

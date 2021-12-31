@@ -4,9 +4,9 @@ import { axios } from '@/utils/request'
  * 查询访问日志
  *
  * @author yubaoshan
- * @date 2021/5/19 11:57
+ * @date 2020/5/19 11:57
  */
-export function sysVisLogPage(parameter) {
+export function sysVisLogPage (parameter) {
   return axios({
     url: '/sysVisLog/page',
     method: 'get',
@@ -18,9 +18,9 @@ export function sysVisLogPage(parameter) {
  * 查询操作日志
  *
  * @author yubaoshan
- * @date 2021/5/19 11:57
+ * @date 2020/5/19 11:57
  */
-export function sysOpLogPage(parameter) {
+export function sysOpLogPage (parameter) {
   return axios({
     url: '/sysOpLog/page',
     method: 'get',
@@ -32,9 +32,9 @@ export function sysOpLogPage(parameter) {
  * 清空访问日志
  *
  * @author yubaoshan
- * @date 2021/6/23 23:09
+ * @date 2020/6/23 23:09
  */
-export function sysVisLogDelete(parameter) {
+export function sysVisLogDelete (parameter) {
   return axios({
     url: '/sysVisLog/delete',
     method: 'post',
@@ -46,9 +46,9 @@ export function sysVisLogDelete(parameter) {
  * 清空登录日志
  *
  * @author yubaoshan
- * @date 2021/6/23 23:09
+ * @date 2020/6/23 23:09
  */
-export function sysOpLogDelete(parameter) {
+export function sysOpLogDelete (parameter) {
   return axios({
     url: '/sysOpLog/delete',
     method: 'post',
@@ -62,7 +62,7 @@ export function sysOpLogDelete(parameter) {
  * @author yubaoshan
  * @date 2021/5/30 18:03
  */
-export function sysVisLogExport(parameter) {
+export function sysVisLogExport (parameter) {
   return axios({
     url: '/sysVisLog/export',
     method: 'get',
@@ -77,7 +77,7 @@ export function sysVisLogExport(parameter) {
  * @author yubaoshan
  * @date 2021/5/30 18:03
  */
-export function sysOpLogExport(parameter) {
+export function sysOpLogExport (parameter) {
   return axios({
     url: '/sysOpLog/export',
     method: 'get',

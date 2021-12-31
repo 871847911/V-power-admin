@@ -4,9 +4,9 @@ import { axios } from '@/utils/request'
  * 分页查询定时任务
  *
  * @author yubaoshan
- * @date 2021/7/3 03:13
+ * @date 2020/7/3 03:13
  */
-export function sysTimersPage(parameter) {
+export function sysTimersPage (parameter) {
   return axios({
     url: '/sysTimers/page',
     method: 'get',
@@ -18,9 +18,9 @@ export function sysTimersPage(parameter) {
  * 获取全部定时任务
  *
  * @author yubaoshan
- * @date 2021/7/3 03:23
+ * @date 2020/7/3 03:23
  */
-export function sysTimersList(parameter) {
+export function sysTimersList (parameter) {
   return axios({
     url: '/sysTimers/list',
     method: 'get',
@@ -32,9 +32,9 @@ export function sysTimersList(parameter) {
  * 查看详情定时任务
  *
  * @author yubaoshan
- * @date 2021/7/3 03:23
+ * @date 2020/7/3 03:23
  */
-export function sysTimersDetail(parameter) {
+export function sysTimersDetail (parameter) {
   return axios({
     url: '/sysTimers/detail',
     method: 'get',
@@ -46,9 +46,9 @@ export function sysTimersDetail(parameter) {
  * 添加定时任务
  *
  * @author yubaoshan
- * @date 2021/7/3 03:23
+ * @date 2020/7/3 03:23
  */
-export function sysTimersAdd(parameter) {
+export function sysTimersAdd (parameter) {
   return axios({
     url: '/sysTimers/add',
     method: 'post',
@@ -60,9 +60,9 @@ export function sysTimersAdd(parameter) {
  * 删除定时任务
  *
  * @author yubaoshan
- * @date 2021/7/3 03:23
+ * @date 2020/7/3 03:23
  */
-export function sysTimersDelete(parameter) {
+export function sysTimersDelete (parameter) {
   return axios({
     url: '/sysTimers/delete',
     method: 'post',
@@ -74,9 +74,9 @@ export function sysTimersDelete(parameter) {
  * 编辑定时任务
  *
  * @author yubaoshan
- * @date 2021/7/3 03:23
+ * @date 2020/7/3 03:23
  */
-export function sysTimersEdit(parameter) {
+export function sysTimersEdit (parameter) {
   return axios({
     url: '/sysTimers/edit',
     method: 'post',
@@ -88,9 +88,9 @@ export function sysTimersEdit(parameter) {
  * 获取系统的所有任务列表
  *
  * @author yubaoshan
- * @date 2021/7/3 03:23
+ * @date 2020/7/3 03:23
  */
-export function sysTimersGetActionClasses(parameter) {
+export function sysTimersGetActionClasses (parameter) {
   return axios({
     url: '/sysTimers/getActionClasses',
     method: 'post',
@@ -102,9 +102,9 @@ export function sysTimersGetActionClasses(parameter) {
  * 启动定时任务
  *
  * @author yubaoshan
- * @date 2021/7/3 03:23
+ * @date 2020/7/3 03:23
  */
-export function sysTimersStart(parameter) {
+export function sysTimersStart (parameter) {
   return axios({
     url: '/sysTimers/start',
     method: 'post',
@@ -116,9 +116,9 @@ export function sysTimersStart(parameter) {
  * 停止定时任务
  *
  * @author yubaoshan
- * @date 2021/7/3 03:23
+ * @date 2020/7/3 03:23
  */
-export function sysTimersStop(parameter) {
+export function sysTimersStop (parameter) {
   return axios({
     url: '/sysTimers/stop',
     method: 'post',

@@ -4,9 +4,9 @@ import { axios } from '@/utils/request'
  * 发送记录查询
  *
  * @author yubaoshan
- * @date 2021/7/3 22:11
+ * @date 2020/7/3 22:11
  */
-export function smsPage(parameter) {
+export function smsPage (parameter) {
   return axios({
     url: '/sms/page',
     method: 'get',
@@ -18,9 +18,9 @@ export function smsPage(parameter) {
  * 验证短信验证码
  *
  * @author yubaoshan
- * @date 2021/7/3 22:12
+ * @date 2020/7/3 22:12
  */
-export function sysSendLoginMessage(parameter) {
+export function sysSendLoginMessage (parameter) {
   return axios({
     url: '/sms/sendLoginMessage',
     method: 'post',
@@ -32,9 +32,9 @@ export function sysSendLoginMessage(parameter) {
  * 验证短信验证码
  *
  * @author yubaoshan
- * @date 2021/7/3 22:12
+ * @date 2020/7/3 22:12
  */
-export function sysValidateMessage(parameter) {
+export function sysValidateMessage (parameter) {
   return axios({
     url: '/sms/validateMessage',
     method: 'post',

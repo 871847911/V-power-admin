@@ -2,7 +2,7 @@
  * 系统应用
  *
  * @author yubaoshan
- * @date 2021年4月23日12:10:57
+ * @date 2020年4月23日12:10:57
  */
 import { axios } from '@/utils/request'
 
@@ -10,9 +10,9 @@ import { axios } from '@/utils/request'
  * 系统应用列表
  *
  * @author yubaoshan
- * @date 2021年7月9日15:05:01
+ * @date 2020年7月9日15:05:01
  */
-export function getAppPage(parameter) {
+export function getAppPage (parameter) {
   return axios({
     url: '/sysApp/page',
     method: 'get',
@@ -24,9 +24,9 @@ export function getAppPage(parameter) {
  * 系统应用列表
  *
  * @author yubaoshan
- * @date 2021年7月9日15:05:01
+ * @date 2020年7月9日15:05:01
  */
-export function getAppList(parameter) {
+export function getAppList (parameter) {
   return axios({
     url: '/sysApp/list',
     method: 'get',
@@ -38,9 +38,9 @@ export function getAppList(parameter) {
  * 新增系统应用
  *
  * @author yubaoshan
- * @date 2021年7月9日15:05:01
+ * @date 2020年7月9日15:05:01
  */
-export function sysAppAdd(parameter) {
+export function sysAppAdd (parameter) {
   return axios({
     url: '/sysApp/add',
     method: 'post',
@@ -55,7 +55,7 @@ export function sysAppAdd(parameter) {
  * @param parameter
  * @returns {*}
  */
-export function sysAppEdit(parameter) {
+export function sysAppEdit (parameter) {
   return axios({
     url: '/sysApp/edit',
     method: 'post',
@@ -67,9 +67,9 @@ export function sysAppEdit(parameter) {
  * 删除系统应用
  *
  * @author yubaoshan
- * @date 2021年7月9日15:05:01
+ * @date 2020年7月9日15:05:01
  */
-export function sysAppDelete(parameter) {
+export function sysAppDelete (parameter) {
   return axios({
     url: '/sysApp/delete',
     method: 'post',
@@ -81,9 +81,9 @@ export function sysAppDelete(parameter) {
  * 设为默认应用
  *
  * @author yubaoshan
- * @date 2021年7月9日15:05:01
+ * @date 2020年7月9日15:05:01
  */
-export function sysAppSetAsDefault(parameter) {
+export function sysAppSetAsDefault (parameter) {
   return axios({
     url: '/sysApp/setAsDefault',
     method: 'post',
