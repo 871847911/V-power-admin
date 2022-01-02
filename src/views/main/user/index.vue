@@ -1,6 +1,6 @@
 <template>
   <a-row :gutter="24">
-    <a-col :md="5" :sm="24">
+    <!-- <a-col :md="5" :sm="24">
       <a-card :bordered="false" :loading="treeLoading">
         <div v-if="this.orgTree != ''">
           <a-tree
@@ -9,15 +9,14 @@
             @select="handleClick"
             :defaultExpandAll="true"
             :defaultExpandedKeys="defaultExpandedKeys"
-            :replaceFields="replaceFields"
-          />
+            :replaceFields="replaceFields" />
         </div>
         <div v-else>
           <a-empty :image="simpleImage" />
         </div>
       </a-card>
-    </a-col>
-    <a-col :md="19" :sm="24">
+    </a-col> -->
+    <a-col :md="24" :sm="24">
       <x-card v-if="hasPerm('sysUser:page')">
         <div slot="content" class="table-page-search-wrapper">
           <a-form layout="inline">
@@ -100,16 +99,10 @@
                   </a-popconfirm>
                 </a-menu-item>
                 <a-menu-item v-if="hasPerm('sysUser:grantRole')">
-                  <a @click="$refs.userRoleForm.userRole(record)">授权角色</a>
-                </a-menu-item>
-                <a-menu-item v-if="hasPerm('sysUser:grantRole')">
                   <a @click="$refs.userRoleForm.userRole(record)">金米粒充值</a>
                 </a-menu-item>
                 <a-menu-item v-if="hasPerm('sysUser:grantRole')">
                   <a @click="$refs.userRoleForm.userRole(record)">追加保证金</a>
-                </a-menu-item>
-                <a-menu-item v-if="hasPerm('sysUser:grantData')">
-                  <a @click="$refs.userOrgForm.userOrg(record)">授权数据</a>
                 </a-menu-item>
                 <a-menu-item v-if="hasPerm('sysUser:delete')">
                   <a-popconfirm placement="topRight" title="确认删除？" @confirm="() => singleDelete(record)">
@@ -138,7 +131,7 @@ import {
   sysUserChangeStatus,
   sysUserResetPwd,
   sysUserExport
-} from '@/api/modular/system/userManage'
+} from '@/api/modular/main/user/userManage'
 import { sysDictTypeDropDown } from '@/api/modular/system/dictManage'
 import addForm from './addForm'
 import editForm from './editForm'
@@ -172,10 +165,6 @@ export default {
           title: '性别',
           dataIndex: 'sex',
           scopedSlots: { customRender: 'sex' }
-        },
-        {
-          title: '手机',
-          dataIndex: 'phone'
         },
         {
           title: '保证金',

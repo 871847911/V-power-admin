@@ -2,7 +2,7 @@
   <div class="footer">
     <div class="links"></div>
     <div class="copyright">
-      Copyright © 2021 宿V次方-后台管理系统
+      Copyright © 2022 宿V次方
     </div>
   </div>
 </template>
