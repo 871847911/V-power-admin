@@ -35,12 +35,12 @@
               </a-col>
               <a-col :md="8" :sm="24">
                 <a-form-item label="主标题">
-                  <a-input v-model="queryParam.mTitle" allow-clear placeholder="请输入主标题" />
+                  <a-input v-model="queryParam.mainTitle" allow-clear placeholder="请输入主标题" />
                 </a-form-item>
               </a-col>
               <a-col :md="8" :sm="24">
                 <a-form-item label="副标题">
-                  <a-input v-model="queryParam.vTitle" allow-clear placeholder="请输入副标题" />
+                  <a-input v-model="queryParam.viceTitle" allow-clear placeholder="请输入副标题" />
                 </a-form-item>
               </a-col>
             </template>
@@ -81,6 +81,12 @@
           <x-down v-if="hasPerm('packInfo:export')" ref="batchExport" @batchExport="batchExport" />
         </template>
         <span slot="action" slot-scope="text, record">
+          <a>上架</a>
+          <a-divider type="vertical" />
+          <a @click="$refs.setIng.edit(record)">设置</a>
+          <a-divider type="vertical" />
+          <a @click="$refs.editForm.edit(record)">详情</a>
+          <a-divider type="vertical" />
           <a v-if="hasPerm('packInfo:edit')" @click="$refs.editForm.edit(record)">编辑</a>
           <a-divider type="vertical" v-if="hasPerm('packInfo:edit') & hasPerm('packInfo:delete')" />
           <a-popconfirm
@@ -93,6 +99,7 @@
           </a-popconfirm>
         </span>
       </s-table>
+      <set-ing ref="setIng" @ok="handleOk" />
       <add-form
         :roomList="roomList"
         :typeList="typeList"
@@ -122,6 +129,7 @@ import { bnbInfoPage } from '@/api/modular/main/bnbinfo/bnbInfoManage'
 import { facilitiesPage } from '@/api/modular/main/facilities/facilitiesManage'
 import { sysDictTypeDropDown } from '@/api/modular/system/dictManage'
 import { hotCityPage } from '@/api/modular/main/hotcity/hotCityManage'
+import setIng from './setting'
 import addForm from './addForm.vue'
 import editForm from './editForm.vue'
 export default {
@@ -129,7 +137,8 @@ export default {
     STable,
     addForm,
     editForm,
-    XDown
+    XDown,
+    setIng
   },
   data() {
     return {
@@ -145,14 +154,9 @@ export default {
       // 表头
       columns: [
         {
-          title: '民宿id',
+          title: '主标题',
           align: 'center',
-          dataIndex: 'bnbId'
-        },
-        {
-          title: '分类id',
-          align: 'center',
-          dataIndex: 'category'
+          dataIndex: 'mainTitle'
         },
         {
           title: '默认价格',
@@ -180,11 +184,6 @@ export default {
           dataIndex: 'hotPoint'
         },
         {
-          title: '主标题',
-          align: 'center',
-          dataIndex: 'mTitle'
-        },
-        {
           title: '主图id',
           align: 'center',
           dataIndex: 'picId'
@@ -197,7 +196,7 @@ export default {
         {
           title: '副标题',
           align: 'center',
-          dataIndex: 'vTitle'
+          dataIndex: 'viceTitle'
         }
       ],
       tstyle: { 'padding-bottom': '0px', 'margin-bottom': '10px' },
@@ -227,7 +226,7 @@ export default {
     if (this.hasPerm('packInfo:edit') || this.hasPerm('packInfo:delete')) {
       this.columns.push({
         title: '操作',
-        width: '150px',
+        width: '250px',
         dataIndex: 'action',
         scopedSlots: { customRender: 'action' }
       })

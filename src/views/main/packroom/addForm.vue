@@ -15,7 +15,7 @@
             v-decorator="['packId', { rules: [{ required: true, message: '请选择套餐！' }] }]"
           >
             <a-select-option v-for="item in packIList" :key="item.id" :value="item.id">{{
-              item.roomName
+              item.mainTitle
             }}</a-select-option>
           </a-select>
         </a-form-item>

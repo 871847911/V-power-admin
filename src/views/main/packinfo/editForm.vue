@@ -68,7 +68,7 @@
         <a-form-item label="主标题" :labelCol="labelCol" :wrapperCol="wrapperCol" has-feedback>
           <a-input
             placeholder="请输入主标题"
-            v-decorator="['mTitle', { rules: [{ required: true, message: '请输入主标题！' }] }]"
+            v-decorator="['mainTitle', { rules: [{ required: true, message: '请输入主标题！' }] }]"
           />
         </a-form-item>
         <a-form-item label="主图id" :labelCol="labelCol" :wrapperCol="wrapperCol" has-feedback>
@@ -110,7 +110,7 @@
         <a-form-item label="副标题" :labelCol="labelCol" :wrapperCol="wrapperCol" has-feedback>
           <a-input
             placeholder="请输入副标题"
-            v-decorator="['vTitle', { rules: [{ required: true, message: '请输入副标题！' }] }]"
+            v-decorator="['viceTitle', { rules: [{ required: true, message: '请输入副标题！' }] }]"
           />
         </a-form-item>
         <a-form-item label="VR" :labelCol="labelCol" :wrapperCol="wrapperCol" has-feedback>
@@ -170,10 +170,10 @@ export default {
           facilities: record.facilities,
           hotPoint: record.hotPoint,
           id: record.id,
-          mTitle: record.mTitle,
+          mainTitle: record.mainTitle,
           picId: record.picId,
           saleAmt: record.saleAmt,
-          vTitle: record.vTitle,
+          viceTitle: record.viceTitle,
           vr: record.vr
         })
       }, 100)

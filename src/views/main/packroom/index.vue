@@ -8,7 +8,7 @@
               <a-form-item label="套餐">
                 <a-select placeholder="请选择套餐" v-model="queryParam.packId">
                   <a-select-option v-for="item in packIList" :key="item.id" :value="item.id">{{
-                    item.name
+                    item.mainTitle
                   }}</a-select-option>
                 </a-select>
               </a-form-item>

@@ -28,13 +28,13 @@
         <a-form-item label="主标题" :labelCol="labelCol" :wrapperCol="wrapperCol" has-feedback>
           <a-input
             placeholder="请输入主标题"
-            v-decorator="['mTitle', { rules: [{ required: true, message: '请输入主标题！' }] }]"
+            v-decorator="['mainTitle', { rules: [{ required: true, message: '请输入主标题！' }] }]"
           />
         </a-form-item>
         <a-form-item label="副标题" :labelCol="labelCol" :wrapperCol="wrapperCol" has-feedback>
           <a-input
             placeholder="请输入副标题"
-            v-decorator="['vTitle', { rules: [{ required: true, message: '请输入副标题！' }] }]"
+            v-decorator="['viceTitle', { rules: [{ required: true, message: '请输入副标题！' }] }]"
           />
         </a-form-item>
         <a-form-item label="主图id" :labelCol="labelCol" :wrapperCol="wrapperCol" has-feedback>
