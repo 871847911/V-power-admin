@@ -66,7 +66,7 @@
 
 <script>
 import { STable, XCard, XDown } from '@/components'
-// import { sysPosPage, sysPosDelete, sysPosExport } from '@/api/modular/system/posManage'
+import { packInfoList } from '@/api/modular/main/goods/goodsManage'
 import addForm from './addForm'
 import editForm from './editForm'
 import setIng from './setting'
@@ -123,19 +123,9 @@ export default {
       ],
       // 加载数据方法 必须为 Promise 对象
       loadData: parameter => {
-        return new Promise(resolve => {
-          resolve({
-            pageNo: 1,
-            pageSize: 10,
-            totalPage: 1,
-            totalRows: 4,
-            rows: [{ name: '商品1', user: '求玮', phone: '18405818220', remark: '这是备注' }]
-          })
+        return packInfoList(Object.assign(parameter, this.queryParam)).then(res => {
+          return res.data
         })
-
-        // return sysPosPage(Object.assign(parameter, this.queryParam)).then(res => {
-        //   return res.data
-        // })
       },
       selectedRowKeys: [],
       selectedRows: [],

@@ -1,13 +1,18 @@
 <template>
   <div>
     <a-card :bordered="false" :bodyStyle="tstyle">
-      <div class="table-page-search-wrapper" v-if="hasPerm('bnbInfo:page')">
+      <div class="table-page-search-wrapper" v-if="hasPerm('roomInfo:page')">
         <a-form layout="inline">
           <a-row :gutter="48">
             <a-col :md="8" :sm="24">
-              <a-form-item label="关联用户">
-                <a-select placeholder="请选择用户" v-model="queryParam.userId">
-                  <a-select-option v-for="item in userList" :key="item.id" :value="item.id">{{
+              <a-form-item label="增项费用">
+                <a-input v-model="queryParam.addPrice" allow-clear placeholder="请输入增项费用" />
+              </a-form-item>
+            </a-col>
+            <a-col :md="8" :sm="24">
+              <a-form-item label="民宿">
+                <a-select placeholder="请选择民宿" v-model="queryParam.bnbId">
+                  <a-select-option v-for="item in roomList" :key="item.id" :value="item.id">{{
                     item.name
                   }}</a-select-option>
                 </a-select>
@@ -15,14 +20,13 @@
             </a-col>
             <template v-if="advanced">
               <a-col :md="8" :sm="24">
-                <a-form-item label="民宿名字">
-                  <a-input v-model="queryParam.name" allow-clear placeholder="请输入民宿名字" />
+                <a-form-item label="房型名称">
+                  <a-input v-model="queryParam.roomName" allow-clear placeholder="请输入房型名称" />
                 </a-form-item>
               </a-col>
-
               <a-col :md="8" :sm="24">
-                <a-form-item label="联系电话">
-                  <a-input v-model="queryParam.tel" allow-clear placeholder="请输入联系电话" />
+                <a-form-item label="VR">
+                  <a-input v-model="queryParam.vr" allow-clear placeholder="请输入VR" />
                 </a-form-item>
               </a-col>
             </template>
@@ -49,24 +53,24 @@
         :rowKey="record => record.id"
         :rowSelection="options.rowSelection"
       >
-        <template class="table-operator" slot="operator" v-if="hasPerm('bnbInfo:add')">
-          <a-button type="primary" v-if="hasPerm('bnbInfo:add')" icon="plus" @click="$refs.addForm.add()"
-            >新增民宿基本信息</a-button
+        <template class="table-operator" slot="operator" v-if="hasPerm('roomInfo:add')">
+          <a-button type="primary" v-if="hasPerm('roomInfo:add')" icon="plus" @click="$refs.addForm.add()"
+            >新增房型信息</a-button
           >
           <a-button
             type="danger"
             :disabled="selectedRowKeys.length < 1"
-            v-if="hasPerm('bnbInfo:delete')"
+            v-if="hasPerm('roomInfo:delete')"
             @click="batchDelete"
             ><a-icon type="delete" />批量删除</a-button
           >
-          <x-down v-if="hasPerm('bnbInfo:export')" ref="batchExport" @batchExport="batchExport" />
+          <x-down v-if="hasPerm('roomInfo:export')" ref="batchExport" @batchExport="batchExport" />
         </template>
         <span slot="action" slot-scope="text, record">
-          <a v-if="hasPerm('bnbInfo:edit')" @click="$refs.editForm.edit(record)">编辑</a>
-          <a-divider type="vertical" v-if="hasPerm('bnbInfo:edit') & hasPerm('bnbInfo:delete')" />
+          <a v-if="hasPerm('roomInfo:edit')" @click="$refs.editForm.edit(record)">编辑</a>
+          <a-divider type="vertical" v-if="hasPerm('roomInfo:edit') & hasPerm('roomInfo:delete')" />
           <a-popconfirm
-            v-if="hasPerm('bnbInfo:delete')"
+            v-if="hasPerm('roomInfo:delete')"
             placement="topRight"
             title="确认删除？"
             @confirm="() => singleDelete(record)"
@@ -75,15 +79,15 @@
           </a-popconfirm>
         </span>
       </s-table>
-      <add-form :userList="userList" ref="addForm" @ok="handleOk" />
-      <edit-form :userList="userList" ref="editForm" @ok="handleOk" />
+      <add-form :roomList="roomList" ref="addForm" @ok="handleOk" />
+      <edit-form :roomList="roomList" ref="editForm" @ok="handleOk" />
     </a-card>
   </div>
 </template>
 <script>
 import { STable, XDown } from '@/components'
-import { bnbInfoPage, bnbInfoDelete, bnbInfoExport } from '@/api/modular/main/bnbinfo/bnbInfoManage'
-import { sysUserSelector } from '@/api/modular/main/user/userManage'
+import { roomInfoPage, roomInfoDelete, roomInfoExport } from '@/api/modular/main/RoomInfo/roomInfoManage'
+import { bnbInfoPage } from '@/api/modular/main/bnbinfo/bnbInfoManage'
 import addForm from './addForm.vue'
 import editForm from './editForm.vue'
 export default {
@@ -95,7 +99,7 @@ export default {
   },
   data() {
     return {
-      userList: [],
+      roomList: [],
       // 高级搜索 展开/关闭
       advanced: false,
       // 查询参数
@@ -103,70 +107,30 @@ export default {
       // 表头
       columns: [
         {
-          title: '具体地址',
+          title: '增项费用',
           align: 'center',
-          dataIndex: 'address'
+          dataIndex: 'addPrice'
         },
         {
-          title: '区块',
+          title: '民宿id',
           align: 'center',
-          dataIndex: 'block'
+          dataIndex: 'bnbId'
         },
         {
-          title: '城市',
+          title: '房型名称',
           align: 'center',
-          dataIndex: 'city'
+          dataIndex: 'roomName'
         },
         {
-          title: '国家',
+          title: 'VR',
           align: 'center',
-          dataIndex: 'country'
-        },
-        {
-          title: '描述',
-          align: 'center',
-          dataIndex: 'description'
-        },
-        {
-          title: '区或县',
-          align: 'center',
-          dataIndex: 'district'
-        },
-        {
-          title: '纬度',
-          align: 'center',
-          dataIndex: 'lat'
-        },
-        {
-          title: '经度',
-          align: 'center',
-          dataIndex: 'lng'
-        },
-        {
-          title: '民宿名字',
-          align: 'center',
-          dataIndex: 'name'
-        },
-        {
-          title: '省份',
-          align: 'center',
-          dataIndex: 'province'
-        },
-        {
-          title: '联系电话',
-          align: 'center',
-          dataIndex: 'tel'
-        },
-        {
-          title: '镇',
-          align: 'center',
-          dataIndex: 'town'
+          dataIndex: 'vr'
         }
       ],
       tstyle: { 'padding-bottom': '0px', 'margin-bottom': '10px' },
       // 加载数据方法 必须为 Promise 对象
       loadData: parameter => {
-        return bnbInfoPage(Object.assign(parameter, this.queryParam)).then(res => {
+        return roomInfoPage(Object.assign(parameter, this.queryParam)).then(res => {
           return res.data
         })
       },
@@ -187,7 +151,7 @@ export default {
     }
   },
   created() {
-    if (this.hasPerm('bnbInfo:edit') || this.hasPerm('bnbInfo:delete')) {
+    if (this.hasPerm('roomInfo:edit') || this.hasPerm('roomInfo:delete')) {
       this.columns.push({
         title: '操作',
         width: '150px',
@@ -199,8 +163,8 @@ export default {
   },
   methods: {
     getMock() {
-      sysUserSelector().then(res => {
-        this.userList = res.data || []
+      bnbInfoPage().then(res => {
+        this.roomList = res.data.rows || []
       })
     },
     /**
@@ -208,7 +172,7 @@ export default {
      */
     singleDelete(record) {
       const param = [{ id: record.id }]
-      this.bnbInfoDelete(param)
+      this.roomInfoDelete(param)
     },
     /**
      * 批量删除
@@ -217,10 +181,10 @@ export default {
       const paramIds = this.selectedRowKeys.map(d => {
         return { id: d }
       })
-      this.bnbInfoDelete(paramIds)
+      this.roomInfoDelete(paramIds)
     },
-    bnbInfoDelete(record) {
-      bnbInfoDelete(record).then(res => {
+    roomInfoDelete(record) {
+      roomInfoDelete(record).then(res => {
         if (res.success) {
           this.$message.success('删除成功')
           this.$refs.table.clearRefreshSelected()
@@ -239,7 +203,7 @@ export default {
       const paramIds = this.selectedRowKeys.map(d => {
         return { id: d }
       })
-      bnbInfoExport(paramIds).then(res => {
+      roomInfoExport(paramIds).then(res => {
         this.$refs.batchExport.downloadfile(res)
       })
     },
