@@ -99,12 +99,6 @@
                   </a-popconfirm>
                 </a-menu-item>
                 <a-menu-item v-if="hasPerm('sysUser:grantRole')">
-                  <a @click="$refs.userRoleForm.userRole(record)">账号停用</a>
-                </a-menu-item>
-                <a-menu-item v-if="hasPerm('sysUser:grantRole')">
-                  <a @click="$refs.userRoleForm.userRole(record)">金米粒充值</a>
-                </a-menu-item>
-                <a-menu-item v-if="hasPerm('sysUser:grantRole')">
                   <a @click="$refs.userRoleForm.userRole(record)">追加保证金</a>
                 </a-menu-item>
                 <a-menu-item v-if="hasPerm('sysUser:delete')">
