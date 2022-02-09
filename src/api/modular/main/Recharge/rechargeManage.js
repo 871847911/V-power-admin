@@ -6,7 +6,7 @@ import { axios } from '@/utils/request'
  * @author Lvyq
  * @date 2022-01-19 11:03:30
  */
-export function rechargePage (parameter) {
+export function rechargePage(parameter) {
   return axios({
     url: '/recharge/page',
     method: 'get',
@@ -20,7 +20,7 @@ export function rechargePage (parameter) {
  * @author Lvyq
  * @date 2022-01-19 11:03:30
  */
-export function rechargeList (parameter) {
+export function rechargeList(parameter) {
   return axios({
     url: '/recharge/list',
     method: 'get',
@@ -34,7 +34,7 @@ export function rechargeList (parameter) {
  * @author Lvyq
  * @date 2022-01-19 11:03:30
  */
-export function rechargeAdd (parameter) {
+export function rechargeAdd(parameter) {
   return axios({
     url: '/recharge/add',
     method: 'post',
@@ -48,7 +48,7 @@ export function rechargeAdd (parameter) {
  * @author Lvyq
  * @date 2022-01-19 11:03:30
  */
-export function rechargeEdit (parameter) {
+export function rechargeEdit(parameter) {
   return axios({
     url: '/recharge/edit',
     method: 'post',
@@ -62,7 +62,7 @@ export function rechargeEdit (parameter) {
  * @author Lvyq
  * @date 2022-01-19 11:03:30
  */
-export function rechargeDelete (parameter) {
+export function rechargeDelete(parameter) {
   return axios({
     url: '/recharge/delete',
     method: 'post',
@@ -76,11 +76,25 @@ export function rechargeDelete (parameter) {
  * @author Lvyq
  * @date 2022-01-19 11:03:30
  */
-export function rechargeExport (parameter) {
+export function rechargeExport(parameter) {
   return axios({
     url: '/recharge/export',
     method: 'get',
     params: parameter,
     responseType: 'blob'
+  })
+}
+
+/**
+ * 充值审核
+ *
+ * @author Lvyq
+ * @date 2022-01-19 11:03:30
+ */
+export function rechargeApproval(parameter) {
+  return axios({
+    url: '/recharge/approval',
+    method: 'post',
+    data: parameter
   })
 }

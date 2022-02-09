@@ -45,7 +45,7 @@
         :rowSelection="options.rowSelection"
       >
         <template class="table-operator" slot="operator" v-if="hasPerm('recharge:add')">
-          <a-button type="primary" v-if="hasPerm('recharge:add')" icon="plus" @click="$refs.addForm.add()"
+          <!-- <a-button type="primary" v-if="hasPerm('recharge:add')" icon="plus" @click="$refs.addForm.add()"
             >新增充值记录</a-button
           >
           <a-button
@@ -54,26 +54,24 @@
             v-if="hasPerm('recharge:delete')"
             @click="batchDelete"
             ><a-icon type="delete" />批量删除</a-button
-          >
+          > -->
           <x-down v-if="hasPerm('recharge:export')" ref="batchExport" @batchExport="batchExport" />
         </template>
         <span slot="action" slot-scope="text, record">
-          <a v-if="hasPerm('recharge:edit')" @click="$refs.editForm.edit(record)">审批</a>
-          <a-divider type="vertical" v-if="hasPerm('recharge:edit') & hasPerm('recharge:delete')" />
-          <a v-if="hasPerm('recharge:edit')" @click="$refs.editForm.edit(record)">编辑</a>
-          <a-divider type="vertical" v-if="hasPerm('recharge:edit') & hasPerm('recharge:delete')" />
-          <a-popconfirm
+          <a v-if="record.status === 1" @click="$refs.setIng.edit(record)">审核</a>
+          <!-- <a-popconfirm
             v-if="hasPerm('recharge:delete')"
             placement="topRight"
             title="确认删除？"
             @confirm="() => singleDelete(record)"
           >
             <a>删除</a>
-          </a-popconfirm>
+          </a-popconfirm> -->
         </span>
       </s-table>
       <add-form ref="addForm" @ok="handleOk" />
       <edit-form ref="editForm" @ok="handleOk" />
+      <set-ing ref="setIng" @ok="handleOk" />
     </a-card>
   </div>
 </template>
@@ -82,10 +80,12 @@ import { STable, XDown } from '@/components'
 import { rechargePage, rechargeDelete, rechargeExport } from '@/api/modular/main/Recharge/rechargeManage'
 import addForm from './addForm.vue'
 import editForm from './editForm.vue'
+import setIng from './setting'
 export default {
   components: {
     STable,
     addForm,
+    setIng,
     editForm,
     XDown
   },
@@ -133,19 +133,12 @@ export default {
           dataIndex: 'rechargeUser'
         },
         {
-          title: '备注',
+          title: '充值状态',
           align: 'center',
-          dataIndex: 'remark'
-        },
-        {
-          title: '充值状态 1-待审批 2-通过 3-拒绝',
-          align: 'center',
-          dataIndex: 'status'
-        },
-        {
-          title: '户名',
-          align: 'center',
-          dataIndex: 'userName'
+          dataIndex: 'status',
+          customRender: text => {
+            return text === 1 ? '待审批' : text === 2 ? '通过' : '拒绝'
+          }
         }
       ],
       tstyle: { 'padding-bottom': '0px', 'margin-bottom': '10px' },
@@ -182,6 +175,12 @@ export default {
     }
   },
   methods: {
+    pass(record) {
+      console.log(record)
+    },
+    refuse(record) {
+      console.log(record)
+    },
     /**
      * 单个删除
      */
