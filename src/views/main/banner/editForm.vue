@@ -11,7 +11,6 @@
       <a-form :form="form">
         <a-form-item v-show="false"><a-input v-decorator="['id']"/></a-form-item>
         <a-form-item label="图片" :labelCol="labelCol" :wrapperCol="wrapperCol" has-feedback>
-          <img :src="url" alt="" />
           <a-upload
             :action="`${BASE_URL}/sysFileInfo/upload`"
             listType="picture-card"
@@ -32,6 +31,7 @@
               <a-icon type="plus" />
               <div class="ant-upload-text">上传</div>
             </div>
+            <img v-else-if="url" :src="url" alt="" />
           </a-upload>
         </a-form-item>
         <a-form-item label="套餐" :labelCol="labelCol" :wrapperCol="wrapperCol" has-feedback>
@@ -94,7 +94,9 @@ export default {
         return {} && []
       }
       if (e.file.status === 'done') {
+        this.fileList = []
         this.fileList.push(e.file.response.data)
+        this.url = ''
         this.uploadingFile = false
       }
       return e && e.fileList
@@ -105,7 +107,6 @@ export default {
       setTimeout(() => {
         this.form.setFieldsValue({
           id: record.id,
-          imgId: record.imgId,
           packId: record.packId
         })
         this.fileList = [record.imgId]
@@ -124,7 +125,12 @@ export default {
               values[key] = JSON.stringify(values[key])
             }
           }
-          bannerEdit(values)
+          const parmas = {
+            id: values.id,
+            packId: values.packId,
+            imgId: this.fileList[0]
+          }
+          bannerEdit(parmas)
             .then(res => {
               if (res.success) {
                 this.$message.success('编辑成功')

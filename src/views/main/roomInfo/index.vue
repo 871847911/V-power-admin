@@ -5,11 +5,6 @@
         <a-form layout="inline">
           <a-row :gutter="48">
             <a-col :md="8" :sm="24">
-              <a-form-item label="增项费用">
-                <a-input v-model="queryParam.addPrice" allow-clear placeholder="请输入增项费用" />
-              </a-form-item>
-            </a-col>
-            <a-col :md="8" :sm="24">
               <a-form-item label="民宿">
                 <a-select placeholder="请选择民宿" v-model="queryParam.bnbId">
                   <a-select-option v-for="item in roomList" :key="item.id" :value="item.id">{{
@@ -22,11 +17,6 @@
               <a-col :md="8" :sm="24">
                 <a-form-item label="房型名称">
                   <a-input v-model="queryParam.roomName" allow-clear placeholder="请输入房型名称" />
-                </a-form-item>
-              </a-col>
-              <a-col :md="8" :sm="24">
-                <a-form-item label="VR">
-                  <a-input v-model="queryParam.vr" allow-clear placeholder="请输入VR" />
                 </a-form-item>
               </a-col>
             </template>
@@ -112,9 +102,13 @@ export default {
           dataIndex: 'addPrice'
         },
         {
-          title: '民宿id',
+          title: '民宿',
           align: 'center',
-          dataIndex: 'bnbId'
+          dataIndex: 'bnbId',
+          customRender: text => {
+            const name = (this.roomList.find(item => item.id === text) || {}).name
+            return name
+          }
         },
         {
           title: '房型名称',

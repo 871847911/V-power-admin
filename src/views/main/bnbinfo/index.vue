@@ -103,6 +103,11 @@ export default {
       // 表头
       columns: [
         {
+          title: '民宿名字',
+          align: 'center',
+          dataIndex: 'name'
+        },
+        {
           title: '具体地址',
           align: 'center',
           dataIndex: 'address'
@@ -141,11 +146,6 @@ export default {
           title: '经度',
           align: 'center',
           dataIndex: 'lng'
-        },
-        {
-          title: '民宿名字',
-          align: 'center',
-          dataIndex: 'name'
         },
         {
           title: '省份',

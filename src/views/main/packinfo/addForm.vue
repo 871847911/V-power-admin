@@ -159,36 +159,133 @@
             </a-form-item>
           </a-col>
         </a-row>
-        <a-form-item label="主图id" :labelCol="labelCol" :wrapperCol="wrapperCol" has-feedback>
-          <a-input
-            placeholder="请输入主图id"
-            v-decorator="['picId', { rules: [{ required: true, message: '请输入主图id！' }] }]"
-          />
-        </a-form-item>
-        <a-form-item label="图文描述图ID" :labelCol="labelCol" :wrapperCol="wrapperCol" has-feedback>
-          <a-input
-            placeholder="请输入图文描述图ID"
-            v-decorator="['graphicDescId', { rules: [{ required: true, message: '请输入图文描述图ID！' }] }]"
-          />
-        </a-form-item>
-        <a-form-item label="商品包含图ID" :labelCol="labelCol" :wrapperCol="wrapperCol" has-feedback>
-          <a-input
-            placeholder="请输入商品包含图ID"
-            v-decorator="['productContentId', { rules: [{ required: true, message: '请输入商品包含图ID！' }] }]"
-          />
-        </a-form-item>
-        <a-form-item label="购买须知图ID" :labelCol="labelCol" :wrapperCol="wrapperCol" has-feedback>
-          <a-input
-            placeholder="请输入购买须知图ID"
-            v-decorator="['purchaseNotesId', { rules: [{ required: true, message: '请输入购买须知图ID！' }] }]"
-          />
-        </a-form-item>
-        <a-form-item label="使用说明图ID" :labelCol="labelCol" :wrapperCol="wrapperCol" has-feedback>
-          <a-input
-            placeholder="请输入使用说明图ID"
-            v-decorator="['useExplanationId', { rules: [{ required: true, message: '请输入使用说明图ID！' }] }]"
-          />
-        </a-form-item>
+        <a-row :gutter="24">
+          <a-col :md="12" :sm="24">
+            <a-form-item label="主图" :labelCol="labelCol" :wrapperCol="wrapperCol" has-feedback>
+              <a-upload
+                :action="`${BASE_URL}/sysFileInfo/upload`"
+                listType="picture-card"
+                :headers="{
+                  Authorization: Authorization
+                }"
+                v-decorator="[
+                  'picId',
+                  {
+                    rules: [{ required: true, message: '请上传主图' }],
+                    valuePropName: 'fileList',
+                    getValueFromEvent: normFiles
+                  }
+                ]"
+              >
+                <div v-if="fileList.length < 1 && uploadingFile == false">
+                  <a-icon type="plus" />
+                  <div class="ant-upload-text">上传</div>
+                </div>
+              </a-upload>
+            </a-form-item>
+          </a-col>
+          <a-col :md="12" :sm="24">
+            <a-form-item label="图文描述图" :labelCol="labelCol" :wrapperCol="wrapperCol" has-feedback>
+              <a-upload
+                :action="`${BASE_URL}/sysFileInfo/upload`"
+                listType="picture-card"
+                :headers="{
+                  Authorization: Authorization
+                }"
+                v-decorator="[
+                  'graphicDescId',
+                  {
+                    rules: [{ required: true, message: '请上传图文描述图' }],
+                    valuePropName: 'fileList',
+                    getValueFromEvent: normFiles2
+                  }
+                ]"
+              >
+                <div v-if="fileList2.length < 1 && uploadingFile2 == false">
+                  <a-icon type="plus" />
+                  <div class="ant-upload-text">上传</div>
+                </div>
+              </a-upload>
+            </a-form-item>
+          </a-col>
+        </a-row>
+        <a-row :gutter="24">
+          <a-col :md="12" :sm="24">
+            <a-form-item label="商品包含图" :labelCol="labelCol" :wrapperCol="wrapperCol" has-feedback>
+              <a-upload
+                :action="`${BASE_URL}/sysFileInfo/upload`"
+                listType="picture-card"
+                :headers="{
+                  Authorization: Authorization
+                }"
+                v-decorator="[
+                  'productContentId',
+                  {
+                    rules: [{ required: true, message: '请上传商品包含图' }],
+                    valuePropName: 'fileList',
+                    getValueFromEvent: normFiles3
+                  }
+                ]"
+              >
+                <div v-if="fileList3.length < 1 && uploadingFile3 == false">
+                  <a-icon type="plus" />
+                  <div class="ant-upload-text">上传</div>
+                </div>
+              </a-upload>
+            </a-form-item>
+          </a-col>
+          <a-col :md="12" :sm="24">
+            <a-form-item label="购买须知图" :labelCol="labelCol" :wrapperCol="wrapperCol" has-feedback>
+              <a-upload
+                :action="`${BASE_URL}/sysFileInfo/upload`"
+                listType="picture-card"
+                :headers="{
+                  Authorization: Authorization
+                }"
+                v-decorator="[
+                  'purchaseNotesId',
+                  {
+                    rules: [{ required: true, message: '请上传购买须知图' }],
+                    valuePropName: 'fileList',
+                    getValueFromEvent: normFiles4
+                  }
+                ]"
+              >
+                <div v-if="fileList4.length < 1 && uploadingFile4 == false">
+                  <a-icon type="plus" />
+                  <div class="ant-upload-text">上传</div>
+                </div>
+              </a-upload>
+            </a-form-item>
+          </a-col>
+        </a-row>
+        <a-row :gutter="24">
+          <a-col :md="12" :sm="24">
+            <a-form-item label="使用说明图" :labelCol="labelCol" :wrapperCol="wrapperCol" has-feedback>
+              <a-upload
+                :action="`${BASE_URL}/sysFileInfo/upload`"
+                listType="picture-card"
+                :headers="{
+                  Authorization: Authorization
+                }"
+                v-decorator="[
+                  'useExplanationId',
+                  {
+                    rules: [{ required: true, message: '请上传使用说明图' }],
+                    valuePropName: 'fileList',
+                    getValueFromEvent: normFiles5
+                  }
+                ]"
+              >
+                <div v-if="fileList5.length < 1 && uploadingFile5 == false">
+                  <a-icon type="plus" />
+                  <div class="ant-upload-text">上传</div>
+                </div>
+              </a-upload>
+            </a-form-item>
+          </a-col>
+          <a-col :md="12" :sm="24"> </a-col>
+        </a-row>
       </a-form>
     </a-spin>
   </a-modal>
@@ -197,17 +294,32 @@
 <script>
 import { packInfoAdd } from '@/api/modular/main/packinfo/packInfoManage'
 import { roomInfoPage } from '@/api/modular/main/RoomInfo/roomInfoManage'
+import Vue from 'vue'
+import { ACCESS_TOKEN } from '@/store/mutation-types'
+const token = Vue.ls.get(ACCESS_TOKEN)
 export default {
   data() {
     return {
+      BASE_URL: process.env.VUE_APP_API_BASE_URL,
+      Authorization: 'Bearer ' + token,
+      fileList: [],
+      uploadingFile: false,
+      fileList2: [],
+      uploadingFile2: false,
+      fileList3: [],
+      uploadingFile3: false,
+      fileList4: [],
+      uploadingFile4: false,
+      fileList5: [],
+      uploadingFile5: false,
       roomTypeList: [],
       labelCol: {
         xs: { span: 24 },
-        sm: { span: 5 }
+        sm: { span: 8 }
       },
       wrapperCol: {
         xs: { span: 24 },
-        sm: { span: 15 }
+        sm: { span: 16 }
       },
       visible: false,
       confirmLoading: false,
@@ -232,6 +344,82 @@ export default {
     }
   },
   methods: {
+    // 初始化方法
+    normFiles(e) {
+      if (e.file.status === 'uploading') {
+        this.uploadingFile = true
+      }
+      if (e.file.status === 'removed') {
+        this.fileList = []
+        this.uploadingFile = false
+        return {} && []
+      }
+      if (e.file.status === 'done') {
+        this.fileList.push(e.file.response.data)
+        this.uploadingFile = false
+      }
+      return e && e.fileList
+    },
+    normFiles2(e) {
+      if (e.file.status === 'uploading') {
+        this.uploadingFile2 = true
+      }
+      if (e.file.status === 'removed') {
+        this.fileList2 = []
+        this.uploadingFile2 = false
+        return {} && []
+      }
+      if (e.file.status === 'done') {
+        this.fileList2.push(e.file.response.data)
+        this.uploadingFile2 = false
+      }
+      return e && e.fileList
+    },
+    normFiles3(e) {
+      if (e.file.status === 'uploading') {
+        this.uploadingFile3 = true
+      }
+      if (e.file.status === 'removed') {
+        this.fileList3 = []
+        this.uploadingFile3 = false
+        return {} && []
+      }
+      if (e.file.status === 'done') {
+        this.fileList3.push(e.file.response.data)
+        this.uploadingFile3 = false
+      }
+      return e && e.fileList
+    },
+    normFiles4(e) {
+      if (e.file.status === 'uploading') {
+        this.uploadingFile4 = true
+      }
+      if (e.file.status === 'removed') {
+        this.fileList4 = []
+        this.uploadingFile4 = false
+        return {} && []
+      }
+      if (e.file.status === 'done') {
+        this.fileList4.push(e.file.response.data)
+        this.uploadingFile4 = false
+      }
+      return e && e.fileList
+    },
+    normFiles5(e) {
+      if (e.file.status === 'uploading') {
+        this.uploadingFile5 = true
+      }
+      if (e.file.status === 'removed') {
+        this.fileList5 = []
+        this.uploadingFile5 = false
+        return {} && []
+      }
+      if (e.file.status === 'done') {
+        this.fileList5.push(e.file.response.data)
+        this.uploadingFile5 = false
+      }
+      return e && e.fileList
+    },
     onchange(e) {
       this.roomTypeList = []
       roomInfoPage({ bnbId: e }).then(res => {
@@ -265,7 +453,12 @@ export default {
           const params = {
             ...values,
             facilities: JSON.parse(values.facilities).join(','),
-            packRoomParams
+            packRoomParams,
+            picId: this.fileList[0],
+            graphicDescId: this.fileList2[0],
+            productContentId: this.fileList3[0],
+            purchaseNotesId: this.fileList4[0],
+            useExplanationId: this.fileList5[0]
           }
           console.log(values.fangxId, list)
           packInfoAdd(params)
@@ -289,6 +482,11 @@ export default {
     },
     handleCancel() {
       this.form.resetFields()
+      this.fileList = []
+      this.fileList2 = []
+      this.fileList3 = []
+      this.fileList4 = []
+      this.fileList5 = []
       this.visible = false
     }
   }

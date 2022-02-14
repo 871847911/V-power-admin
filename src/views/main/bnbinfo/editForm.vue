@@ -196,6 +196,11 @@ export default {
       form: this.$form.createForm(this)
     }
   },
+  props: {
+    userList: {
+      type: Array
+    }
+  },
   methods: {
     // 初始化方法
     edit(record) {
@@ -203,6 +208,10 @@ export default {
       setTimeout(() => {
         this.form.setFieldsValue({
           address: record.address,
+          principal: record.principal,
+          Yvalue: record.Yvalue,
+          Xvalue: record.Xvalue,
+          userId: record.userId,
           block: record.block,
           businessLicense: record.businessLicense,
           city: record.city,

@@ -24,16 +24,6 @@
             </a-col>
             <template v-if="advanced">
               <a-col :md="8" :sm="24">
-                <a-form-item label="描述">
-                  <a-input v-model="queryParam.description" allow-clear placeholder="请输入描述" />
-                </a-form-item>
-              </a-col>
-              <a-col :md="8" :sm="24">
-                <a-form-item label="包含设备">
-                  <a-input v-model="queryParam.facilities" allow-clear placeholder="请输入包含设备" />
-                </a-form-item>
-              </a-col>
-              <a-col :md="8" :sm="24">
                 <a-form-item label="主标题">
                   <a-input v-model="queryParam.mainTitle" allow-clear placeholder="请输入主标题" />
                 </a-form-item>
