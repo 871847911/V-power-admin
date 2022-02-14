@@ -77,9 +77,6 @@
                 placeholder="请选择商品状态"
                 v-decorator="['status', { rules: [{ required: true, message: '请选择商品状态！' }] }]"
               >
-                <!-- <a-select-option v-for="item in typeDictTypeDropDown" :key="item.id" :value="item.id">{{
-              item.name
-            }}</a-select-option> -->
                 <a-select-option :key="1" :value="1">下架</a-select-option>
                 <a-select-option :key="2" :value="2">上架</a-select-option>
               </a-select>
@@ -159,36 +156,138 @@
             </a-form-item>
           </a-col>
         </a-row>
-        <a-form-item label="主图id" :labelCol="labelCol" :wrapperCol="wrapperCol" has-feedback>
-          <a-input
-            placeholder="请输入主图id"
-            v-decorator="['picId', { rules: [{ required: true, message: '请输入主图id！' }] }]"
-          />
-        </a-form-item>
-        <a-form-item label="图文描述图ID" :labelCol="labelCol" :wrapperCol="wrapperCol" has-feedback>
-          <a-input
-            placeholder="请输入图文描述图ID"
-            v-decorator="['graphicDescId', { rules: [{ required: true, message: '请输入图文描述图ID！' }] }]"
-          />
-        </a-form-item>
-        <a-form-item label="商品包含图ID" :labelCol="labelCol" :wrapperCol="wrapperCol" has-feedback>
-          <a-input
-            placeholder="请输入商品包含图ID"
-            v-decorator="['productContentId', { rules: [{ required: true, message: '请输入商品包含图ID！' }] }]"
-          />
-        </a-form-item>
-        <a-form-item label="购买须知图ID" :labelCol="labelCol" :wrapperCol="wrapperCol" has-feedback>
-          <a-input
-            placeholder="请输入购买须知图ID"
-            v-decorator="['purchaseNotesId', { rules: [{ required: true, message: '请输入购买须知图ID！' }] }]"
-          />
-        </a-form-item>
-        <a-form-item label="使用说明图ID" :labelCol="labelCol" :wrapperCol="wrapperCol" has-feedback>
-          <a-input
-            placeholder="请输入使用说明图ID"
-            v-decorator="['useExplanationId', { rules: [{ required: true, message: '请输入使用说明图ID！' }] }]"
-          />
-        </a-form-item>
+        <a-row :gutter="24">
+          <a-col :md="12" :sm="24">
+            <a-form-item label="主图" :labelCol="labelCol" :wrapperCol="wrapperCol" has-feedback>
+              <a-upload
+                :action="`${BASE_URL}/sysFileInfo/upload`"
+                listType="picture-card"
+                :headers="{
+                  Authorization: Authorization
+                }"
+                v-decorator="[
+                  'picId',
+                  {
+                    rules: [{ required: true, message: '请上传主图' }],
+                    valuePropName: 'fileList',
+                    getValueFromEvent: normFiles
+                  }
+                ]"
+              >
+                <div v-if="fileList.length < 1 && uploadingFile == false">
+                  <a-icon type="plus" />
+                  <div class="ant-upload-text">上传</div>
+                </div>
+                <img v-else-if="url" :src="url" alt="" />
+              </a-upload>
+            </a-form-item>
+          </a-col>
+          <a-col :md="12" :sm="24">
+            <a-form-item label="图文描述图" :labelCol="labelCol" :wrapperCol="wrapperCol" has-feedback>
+              <a-upload
+                :action="`${BASE_URL}/sysFileInfo/upload`"
+                listType="picture-card"
+                :headers="{
+                  Authorization: Authorization
+                }"
+                v-decorator="[
+                  'graphicDescId',
+                  {
+                    rules: [{ required: true, message: '请上传图文描述图' }],
+                    valuePropName: 'fileList',
+                    getValueFromEvent: normFiles2
+                  }
+                ]"
+              >
+                <div v-if="fileList2.length < 1 && uploadingFile2 == false">
+                  <a-icon type="plus" />
+                  <div class="ant-upload-text">上传</div>
+                </div>
+                <img v-else-if="url2" :src="url2" alt="" />
+              </a-upload>
+            </a-form-item>
+          </a-col>
+        </a-row>
+        <a-row :gutter="24">
+          <a-col :md="12" :sm="24">
+            <a-form-item label="商品包含图" :labelCol="labelCol" :wrapperCol="wrapperCol" has-feedback>
+              <a-upload
+                :action="`${BASE_URL}/sysFileInfo/upload`"
+                listType="picture-card"
+                :headers="{
+                  Authorization: Authorization
+                }"
+                v-decorator="[
+                  'productContentId',
+                  {
+                    rules: [{ required: true, message: '请上传商品包含图' }],
+                    valuePropName: 'fileList',
+                    getValueFromEvent: normFiles3
+                  }
+                ]"
+              >
+                <div v-if="fileList3.length < 1 && uploadingFile3 == false">
+                  <a-icon type="plus" />
+                  <div class="ant-upload-text">上传</div>
+                </div>
+                <img v-else-if="url3" :src="url3" alt="" />
+              </a-upload>
+            </a-form-item>
+          </a-col>
+          <a-col :md="12" :sm="24">
+            <a-form-item label="购买须知图" :labelCol="labelCol" :wrapperCol="wrapperCol" has-feedback>
+              <a-upload
+                :action="`${BASE_URL}/sysFileInfo/upload`"
+                listType="picture-card"
+                :headers="{
+                  Authorization: Authorization
+                }"
+                v-decorator="[
+                  'purchaseNotesId',
+                  {
+                    rules: [{ required: true, message: '请上传购买须知图' }],
+                    valuePropName: 'fileList',
+                    getValueFromEvent: normFiles4
+                  }
+                ]"
+              >
+                <div v-if="fileList4.length < 1 && uploadingFile4 == false">
+                  <a-icon type="plus" />
+                  <div class="ant-upload-text">上传</div>
+                </div>
+                <img v-else-if="url4" :src="url4" alt="" />
+              </a-upload>
+            </a-form-item>
+          </a-col>
+        </a-row>
+        <a-row :gutter="24">
+          <a-col :md="12" :sm="24">
+            <a-form-item label="使用说明图" :labelCol="labelCol" :wrapperCol="wrapperCol" has-feedback>
+              <a-upload
+                :action="`${BASE_URL}/sysFileInfo/upload`"
+                listType="picture-card"
+                :headers="{
+                  Authorization: Authorization
+                }"
+                v-decorator="[
+                  'useExplanationId',
+                  {
+                    rules: [{ required: true, message: '请上传使用说明图' }],
+                    valuePropName: 'fileList',
+                    getValueFromEvent: normFiles5
+                  }
+                ]"
+              >
+                <div v-if="fileList5.length < 1 && uploadingFile5 == false">
+                  <a-icon type="plus" />
+                  <div class="ant-upload-text">上传</div>
+                </div>
+                <img v-else-if="url5" :src="url5" alt="" />
+              </a-upload>
+            </a-form-item>
+          </a-col>
+          <a-col :md="12" :sm="24"> </a-col>
+        </a-row>
       </a-form>
     </a-spin>
   </a-modal>
@@ -197,9 +296,29 @@
 <script>
 import { packInfoEdit } from '@/api/modular/main/packinfo/packInfoManage'
 import { roomInfoPage } from '@/api/modular/main/RoomInfo/roomInfoManage'
+import Vue from 'vue'
+import { ACCESS_TOKEN } from '@/store/mutation-types'
+const token = Vue.ls.get(ACCESS_TOKEN)
 export default {
   data() {
     return {
+      BASE_URL: process.env.VUE_APP_API_BASE_URL,
+      Authorization: 'Bearer ' + token,
+      fileList: [],
+      uploadingFile: false,
+      fileList2: [],
+      uploadingFile2: false,
+      fileList3: [],
+      uploadingFile3: false,
+      fileList4: [],
+      uploadingFile4: false,
+      fileList5: [],
+      uploadingFile5: false,
+      url: '',
+      url2: '',
+      url3: '',
+      url4: '',
+      url5: '',
       roomTypeList: [],
       labelCol: {
         xs: { span: 24 },
@@ -240,6 +359,8 @@ export default {
       this.visible = true
       roomInfoPage({ bnbId: record.bnbId }).then(res => {
         this.roomTypeList = res.data.rows || []
+        let facilities = record.facilities.split(',')
+        facilities = facilities.map(item => Number(item))
         setTimeout(() => {
           this.form.setFieldsValue({
             fangxId: record.fangxId,
@@ -248,7 +369,7 @@ export default {
             defaultPrice: record.defaultPrice,
             defaultStock: record.defaultStock,
             description: record.description,
-            facilities: record.facilities.split(','),
+            facilities,
             hotPoint: record.hotPoint,
             id: record.id,
             mainTitle: record.mainTitle,
@@ -259,6 +380,16 @@ export default {
             vr: record.vr
           })
         }, 100)
+        this.fileList = [record.picId]
+        this.fileList2 = [record.graphicDescId]
+        this.fileList3 = [record.productContentId]
+        this.fileList4 = [record.purchaseNotesId]
+        this.fileList5 = [record.useExplanationId]
+        this.url = `${this.BASE_URL}/sysFileInfo/preview?id=${record.picId}`
+        this.url2 = `${this.BASE_URL}/sysFileInfo/preview?id=${record.graphicDescId}`
+        this.url3 = `${this.BASE_URL}/sysFileInfo/preview?id=${record.productContentId}`
+        this.url4 = `${this.BASE_URL}/sysFileInfo/preview?id=${record.purchaseNotesId}`
+        this.url5 = `${this.BASE_URL}/sysFileInfo/preview?id=${record.useExplanationId}`
       })
     },
     handleSubmit() {
@@ -273,7 +404,22 @@ export default {
               values[key] = JSON.stringify(values[key])
             }
           }
-          packInfoEdit(values)
+          const list = JSON.parse(values.fangxId) || []
+          const packRoomParams = []
+          list.map(item => {
+            packRoomParams.push({ roomId: item })
+          })
+          const params = {
+            ...values,
+            facilities: JSON.parse(values.facilities).join(','),
+            packRoomParams,
+            picId: this.fileList[0],
+            graphicDescId: this.fileList2[0],
+            productContentId: this.fileList3[0],
+            purchaseNotesId: this.fileList4[0],
+            useExplanationId: this.fileList5[0]
+          }
+          packInfoEdit(params)
             .then(res => {
               if (res.success) {
                 this.$message.success('编辑成功')

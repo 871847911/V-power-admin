@@ -6,7 +6,7 @@ import { axios } from '@/utils/request'
  * @author Lvyq
  * @date 2022-01-08 16:09:38
  */
-export function packInfoPage (parameter) {
+export function packInfoPage(parameter) {
   return axios({
     url: '/packInfo/page',
     method: 'get',
@@ -20,7 +20,7 @@ export function packInfoPage (parameter) {
  * @author Lvyq
  * @date 2022-01-08 16:09:38
  */
-export function packInfoList (parameter) {
+export function packInfoList(parameter) {
   return axios({
     url: '/packInfo/list',
     method: 'get',
@@ -34,7 +34,7 @@ export function packInfoList (parameter) {
  * @author Lvyq
  * @date 2022-01-08 16:09:38
  */
-export function packInfoAdd (parameter) {
+export function packInfoAdd(parameter) {
   return axios({
     url: '/packInfo/add',
     method: 'post',
@@ -48,7 +48,7 @@ export function packInfoAdd (parameter) {
  * @author Lvyq
  * @date 2022-01-08 16:09:38
  */
-export function packInfoEdit (parameter) {
+export function packInfoEdit(parameter) {
   return axios({
     url: '/packInfo/edit',
     method: 'post',
@@ -62,7 +62,7 @@ export function packInfoEdit (parameter) {
  * @author Lvyq
  * @date 2022-01-08 16:09:38
  */
-export function packInfoDelete (parameter) {
+export function packInfoDelete(parameter) {
   return axios({
     url: '/packInfo/delete',
     method: 'post',
@@ -76,11 +76,25 @@ export function packInfoDelete (parameter) {
  * @author Lvyq
  * @date 2022-01-08 16:09:38
  */
-export function packInfoExport (parameter) {
+export function packInfoExport(parameter) {
   return axios({
     url: '/packInfo/export',
     method: 'get',
     params: parameter,
     responseType: 'blob'
+  })
+}
+
+/**
+ * 套餐信息详情
+ *
+ * @author Lvyq
+ * @date 2022-01-08 16:09:38
+ */
+export function packInfoDetail(parameter) {
+  return axios({
+    url: '/packInfo/detail',
+    method: 'get',
+    params: parameter
   })
 }

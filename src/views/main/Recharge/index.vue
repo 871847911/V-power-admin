@@ -15,6 +15,15 @@
                   <a-input v-model="queryParam.rechargeUser" allow-clear placeholder="请输入充值人" />
                 </a-form-item>
               </a-col>
+              <a-col :md="8" :sm="24">
+                <a-form-item label="充值状态">
+                  <a-select placeholder="请选择状态" v-model="queryParam.status">
+                    <a-select-option :value="1">待审批</a-select-option>
+                    <a-select-option :value="2">通过</a-select-option>
+                    <a-select-option :value="3">拒绝</a-select-option>
+                  </a-select>
+                </a-form-item>
+              </a-col>
             </template>
             <a-col :md="8" :sm="24">
               <span class="table-page-search-submitButtons">

@@ -130,9 +130,13 @@ export default {
           dataIndex: 'activeDt'
         },
         {
-          title: '民宿id',
+          title: '民宿',
           align: 'center',
-          dataIndex: 'bnbId'
+          dataIndex: 'bnbId',
+          customRender: text => {
+            const name = (this.roomList.find(item => item.id === text) || {}).name
+            return name
+          }
         },
         {
           title: '有效结束日期',

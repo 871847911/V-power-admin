@@ -70,12 +70,13 @@
           >
           <x-down v-if="hasPerm('packInfo:export')" ref="batchExport" @batchExport="batchExport" />
         </template>
+        <div slot="imgId" slot-scope="text">
+          <img style="width: 200px;" :src="`${BASE_URL}/sysFileInfo/preview?id=${text}`" />
+        </div>
         <span slot="action" slot-scope="text, record">
-          <a>上架</a>
-          <a-divider type="vertical" />
           <a @click="$refs.setIng.edit(record)">设置</a>
           <a-divider type="vertical" />
-          <a @click="$refs.editForm.edit(record)">详情</a>
+          <a @click="$refs.detailForm.detail(record)">详情</a>
           <a-divider type="vertical" />
           <a v-if="hasPerm('packInfo:edit')" @click="$refs.editForm.edit(record)">编辑</a>
           <a-divider type="vertical" v-if="hasPerm('packInfo:edit') & hasPerm('packInfo:delete')" />
@@ -108,6 +109,15 @@
         ref="editForm"
         @ok="handleOk"
       />
+      <detail-form
+        :roomList="roomList"
+        :typeList="typeList"
+        :facilities="facilities"
+        :typeDictTypeDropDown="typeDictTypeDropDown"
+        :hotCity="hotCity"
+        ref="detailForm"
+        @ok="handleOk"
+      />
     </a-card>
   </div>
 </template>
@@ -122,16 +132,19 @@ import { hotCityPage } from '@/api/modular/main/hotcity/hotCityManage'
 import setIng from './setting'
 import addForm from './addForm.vue'
 import editForm from './editForm.vue'
+import detailForm from './detailForm'
 export default {
   components: {
     STable,
     addForm,
     editForm,
     XDown,
-    setIng
+    setIng,
+    detailForm
   },
   data() {
     return {
+      BASE_URL: process.env.VUE_APP_API_BASE_URL,
       roomList: [],
       typeList: [],
       facilities: [],
@@ -149,6 +162,17 @@ export default {
           dataIndex: 'mainTitle'
         },
         {
+          title: '副标题',
+          align: 'center',
+          dataIndex: 'viceTitle'
+        },
+        {
+          title: '主图',
+          align: 'center',
+          dataIndex: 'picId',
+          scopedSlots: { customRender: 'imgId' }
+        },
+        {
           title: '默认价格',
           align: 'center',
           dataIndex: 'defaultPrice'
@@ -157,36 +181,6 @@ export default {
           title: '默认库存',
           align: 'center',
           dataIndex: 'defaultStock'
-        },
-        {
-          title: '描述',
-          align: 'center',
-          dataIndex: 'description'
-        },
-        {
-          title: '包含设备',
-          align: 'center',
-          dataIndex: 'facilities'
-        },
-        {
-          title: '热点城市',
-          align: 'center',
-          dataIndex: 'hotPoint'
-        },
-        {
-          title: '主图id',
-          align: 'center',
-          dataIndex: 'picId'
-        },
-        {
-          title: '销售数量',
-          align: 'center',
-          dataIndex: 'saleAmt'
-        },
-        {
-          title: '副标题',
-          align: 'center',
-          dataIndex: 'viceTitle'
         }
       ],
       tstyle: { 'padding-bottom': '0px', 'margin-bottom': '10px' },

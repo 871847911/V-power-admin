@@ -13,20 +13,23 @@
           <a-input v-decorator="['id']" />
         </a-form-item>
 
-        <a-form-item label="数量" :labelCol="labelCol" :wrapperCol="wrapperCol" has-feedback>
+        <a-form-item label="库存" :labelCol="labelCol" :wrapperCol="wrapperCol" has-feedback>
           <a-input
-            placeholder="请输入数量"
-            v-decorator="['name', { rules: [{ required: true, message: '请输入数量！' }] }]"
+            placeholder="请输入库存"
+            v-decorator="['defaultStock', { rules: [{ required: true, message: '请输入库存！' }] }]"
           />
         </a-form-item>
-        <a-form-item label="时间" :labelCol="labelCol" :wrapperCol="wrapperCol" has-feedback>
-          <a-range-picker />
+        <a-form-item label="价格" :labelCol="labelCol" :wrapperCol="wrapperCol" has-feedback>
+          <a-input
+            placeholder="请输入价格"
+            v-decorator="['defaultPrice', { rules: [{ required: true, message: '请输入价格！' }] }]"
+          />
         </a-form-item>
 
-        <a-form-item label="状态" :labelCol="labelCol" :wrapperCol="wrapperCol" has-feedback>
-          <a-radio-group v-decorator="['generateType', { rules: [{ required: true, message: '请选择状态！' }] }]">
-            <a-radio :value="1">开</a-radio>
-            <a-radio :value="2">关</a-radio>
+        <a-form-item label="商品状态" :labelCol="labelCol" :wrapperCol="wrapperCol" has-feedback>
+          <a-radio-group v-decorator="['status', { rules: [{ required: true, message: '请选择状态！' }] }]">
+            <a-radio :value="1">下架</a-radio>
+            <a-radio :value="2">上架</a-radio>
           </a-radio-group>
         </a-form-item>
       </a-form>
@@ -35,12 +38,13 @@
 </template>
 
 <script>
-import { sysPosEdit } from '@/api/modular/system/posManage'
+import { packInfoEdit } from '@/api/modular/main/packinfo/packInfoManage'
 
 export default {
   data() {
     return {
       previewVisible: false,
+      record: {},
       previewImage: '',
       fileList: [],
       fileUrl: [],
@@ -86,13 +90,10 @@ export default {
     // 初始化方法
     edit(record) {
       this.visible = true
+      this.record = record
       setTimeout(() => {
         this.form.setFieldsValue({
-          id: record.id,
-          name: record.name,
-          code: record.code,
-          sort: record.sort,
-          remark: record.remark
+          ...record
         })
       }, 100)
     },
@@ -104,7 +105,11 @@ export default {
       this.confirmLoading = true
       validateFields((errors, values) => {
         if (!errors) {
-          sysPosEdit(values)
+          const params = {
+            ...this.record,
+            ...values
+          }
+          packInfoEdit(params)
             .then(res => {
               if (res.success) {
                 this.$message.success('编辑成功')

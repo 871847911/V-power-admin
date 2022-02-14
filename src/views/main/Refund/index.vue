@@ -26,12 +26,13 @@
                 </a-form-item>
               </a-col>
               <a-col :md="8" :sm="24">
-                <a-form-item label="状态 1-待审批 2-通过 3-拒绝 4-已打款">
-                  <a-input
-                    v-model="queryParam.status"
-                    allow-clear
-                    placeholder="请输入状态 1-待审批 2-通过 3-拒绝 4-已打款"
-                  />
+                <a-form-item label="退款状态">
+                  <a-select placeholder="请选择状态" v-model="queryParam.status">
+                    <a-select-option :value="1">待审批</a-select-option>
+                    <a-select-option :value="2">通过</a-select-option>
+                    <a-select-option :value="3">拒绝</a-select-option>
+                    <a-select-option :value="4">已打款</a-select-option>
+                  </a-select>
                 </a-form-item>
               </a-col>
               <a-col :md="8" :sm="24">
@@ -42,11 +43,6 @@
               <a-col :md="8" :sm="24">
                 <a-form-item label="户名">
                   <a-input v-model="queryParam.userName" allow-clear placeholder="请输入户名" />
-                </a-form-item>
-              </a-col>
-              <a-col :md="8" :sm="24">
-                <a-form-item label="保证金账单ID">
-                  <a-input v-model="queryParam.billId" allow-clear placeholder="请输入保证金账单ID" />
                 </a-form-item>
               </a-col>
             </template>
