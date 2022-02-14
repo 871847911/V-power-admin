@@ -23,6 +23,9 @@
           >
           <x-down v-if="hasPerm('banner:export')" ref="batchExport" @batchExport="batchExport" />
         </template>
+        <div slot="imgId" slot-scope="text">
+          <img style="width: 200px;" :src="`${BASE_URL}/sysFileInfo/preview?id=${text}`" />
+        </div>
         <span slot="action" slot-scope="text, record">
           <a v-if="hasPerm('banner:edit')" @click="$refs.editForm.edit(record)">编辑</a>
           <a-divider type="vertical" v-if="hasPerm('banner:edit') & hasPerm('banner:delete')" />
@@ -56,6 +59,7 @@ export default {
   },
   data() {
     return {
+      BASE_URL: process.env.VUE_APP_API_BASE_URL,
       packIList: [],
       // 查询参数
       queryParam: {},
@@ -67,9 +71,10 @@ export default {
           dataIndex: 'packId'
         },
         {
-          title: '图片id',
+          title: '图片',
           align: 'center',
-          dataIndex: 'imgId'
+          dataIndex: 'imgId',
+          scopedSlots: { customRender: 'imgId' }
         }
       ],
       tstyle: { 'padding-bottom': '0px', 'margin-bottom': '10px' },

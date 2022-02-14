@@ -10,11 +10,29 @@
     <a-spin :spinning="confirmLoading">
       <a-form :form="form">
         <a-form-item v-show="false"><a-input v-decorator="['id']"/></a-form-item>
-        <a-form-item label="图片ID" :labelCol="labelCol" :wrapperCol="wrapperCol" has-feedback>
-          <a-input
-            placeholder="请输入图片ID"
-            v-decorator="['imgId', { rules: [{ required: true, message: '请输入图片ID！' }] }]"
-          />
+        <a-form-item label="图片" :labelCol="labelCol" :wrapperCol="wrapperCol" has-feedback>
+          <img :src="url" alt="" />
+          <a-upload
+            :action="`${BASE_URL}/sysFileInfo/upload`"
+            listType="picture-card"
+            :headers="{
+              Authorization: Authorization
+            }"
+            v-decorator="[
+              'imgId',
+              {
+                rules: [{ required: true, message: '请上传图片' }],
+                initialValue: fileList,
+                valuePropName: 'fileList',
+                getValueFromEvent: normFiles
+              }
+            ]"
+          >
+            <div v-if="fileList.length < 1 && uploadingFile == false">
+              <a-icon type="plus" />
+              <div class="ant-upload-text">上传</div>
+            </div>
+          </a-upload>
         </a-form-item>
         <a-form-item label="套餐" :labelCol="labelCol" :wrapperCol="wrapperCol" has-feedback>
           <a-select
@@ -33,9 +51,17 @@
 
 <script>
 import { bannerEdit } from '@/api/modular/main/banner/bannerManage'
+import Vue from 'vue'
+import { ACCESS_TOKEN } from '@/store/mutation-types'
+const token = Vue.ls.get(ACCESS_TOKEN)
 export default {
   data() {
     return {
+      BASE_URL: process.env.VUE_APP_API_BASE_URL,
+      url: '',
+      fileList: [],
+      uploadingFile: false,
+      Authorization: 'Bearer ' + token,
       labelCol: {
         xs: { span: 24 },
         sm: { span: 5 }
@@ -58,6 +84,21 @@ export default {
     }
   },
   methods: {
+    normFiles(e) {
+      if (e.file.status === 'uploading') {
+        this.uploadingFile = true
+      }
+      if (e.file.status === 'removed') {
+        this.fileList = []
+        this.uploadingFile = false
+        return {} && []
+      }
+      if (e.file.status === 'done') {
+        this.fileList.push(e.file.response.data)
+        this.uploadingFile = false
+      }
+      return e && e.fileList
+    },
     // 初始化方法
     edit(record) {
       this.visible = true
@@ -67,6 +108,8 @@ export default {
           imgId: record.imgId,
           packId: record.packId
         })
+        this.fileList = [record.imgId]
+        this.url = `${this.BASE_URL}/sysFileInfo/preview?id=${record.imgId}`
       }, 100)
     },
     handleSubmit() {

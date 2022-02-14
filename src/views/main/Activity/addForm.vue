@@ -9,11 +9,12 @@
   >
     <a-spin :spinning="confirmLoading">
       <a-form :form="form">
-        <a-form-item label="活动日期" :labelCol="labelCol" :wrapperCol="wrapperCol" has-feedback>
+        <a-form-item label="活动时间" :labelCol="labelCol" :wrapperCol="wrapperCol" has-feedback>
           <a-date-picker
+            show-time
             style="width: 100%"
-            placeholder="请选择活动日期"
-            v-decorator="['activeDt', { rules: [{ required: true, message: '请选择活动日期！' }] }]"
+            placeholder="请选择活动时间"
+            v-decorator="['activeDt', { rules: [{ required: true, message: '请选择活动时间！' }] }]"
             @change="activeDtOnChange"
           />
         </a-form-item>

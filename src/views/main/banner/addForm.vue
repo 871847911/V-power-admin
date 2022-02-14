@@ -9,11 +9,27 @@
   >
     <a-spin :spinning="confirmLoading">
       <a-form :form="form">
-        <a-form-item label="图片ID" :labelCol="labelCol" :wrapperCol="wrapperCol" has-feedback>
-          <a-input
-            placeholder="请输入图片ID"
-            v-decorator="['imgId', { rules: [{ required: true, message: '请输入图片ID！' }] }]"
-          />
+        <a-form-item label="图片" :labelCol="labelCol" :wrapperCol="wrapperCol" has-feedback>
+          <a-upload
+            :action="`${BASE_URL}/sysFileInfo/upload`"
+            listType="picture-card"
+            :headers="{
+              Authorization: Authorization
+            }"
+            v-decorator="[
+              'imgId',
+              {
+                rules: [{ required: true, message: '请上传图片' }],
+                valuePropName: 'fileList',
+                getValueFromEvent: normFiles
+              }
+            ]"
+          >
+            <div v-if="fileList.length < 1 && uploadingFile == false">
+              <a-icon type="plus" />
+              <div class="ant-upload-text">上传</div>
+            </div>
+          </a-upload>
         </a-form-item>
         <a-form-item label="套餐" :labelCol="labelCol" :wrapperCol="wrapperCol" has-feedback>
           <a-select
@@ -32,9 +48,16 @@
 
 <script>
 import { bannerAdd } from '@/api/modular/main/banner/bannerManage'
+import Vue from 'vue'
+import { ACCESS_TOKEN } from '@/store/mutation-types'
+const token = Vue.ls.get(ACCESS_TOKEN)
 export default {
   data() {
     return {
+      BASE_URL: process.env.VUE_APP_API_BASE_URL,
+      fileList: [],
+      uploadingFile: false,
+      Authorization: 'Bearer ' + token,
       labelCol: {
         xs: { span: 24 },
         sm: { span: 5 }
@@ -57,6 +80,21 @@ export default {
     }
   },
   methods: {
+    normFiles(e) {
+      if (e.file.status === 'uploading') {
+        this.uploadingFile = true
+      }
+      if (e.file.status === 'removed') {
+        this.fileList = []
+        this.uploadingFile = false
+        return {} && []
+      }
+      if (e.file.status === 'done') {
+        this.fileList.push(e.file.response.data)
+        this.uploadingFile = false
+      }
+      return e && e.fileList
+    },
     // 初始化方法
     add(record) {
       this.visible = true
@@ -76,7 +114,11 @@ export default {
               values[key] = JSON.stringify(values[key])
             }
           }
-          bannerAdd(values)
+          const parmas = {
+            packId: values.packId,
+            imgId: this.fileList[0]
+          }
+          bannerAdd(parmas)
             .then(res => {
               if (res.success) {
                 this.$message.success('新增成功')

@@ -1,18 +1,52 @@
 <template>
   <div>
     <a-card :bordered="false" :bodyStyle="tstyle">
-      <div class="table-page-search-wrapper" v-if="hasPerm('recharge:page')">
+      <div class="table-page-search-wrapper" v-if="hasPerm('refund:page')">
         <a-form layout="inline">
           <a-row :gutter="48">
             <a-col :md="8" :sm="24">
-              <a-form-item label="帐户">
-                <a-input v-model="queryParam.account" allow-clear placeholder="请输入帐户" />
+              <a-form-item label="退款人">
+                <a-input v-model="queryParam.refundUser" allow-clear placeholder="请输入退款人" />
               </a-form-item>
             </a-col>
             <template v-if="advanced">
               <a-col :md="8" :sm="24">
-                <a-form-item label="充值人">
-                  <a-input v-model="queryParam.rechargeUser" allow-clear placeholder="请输入充值人" />
+                <a-form-item label="审批人">
+                  <a-input v-model="queryParam.approvalUser" allow-clear placeholder="请输入审批人" />
+                </a-form-item>
+              </a-col>
+              <a-col :md="8" :sm="24">
+                <a-form-item label="审批时间">
+                  <a-date-picker
+                    style="width: 100%"
+                    placeholder="请选择审批时间"
+                    v-model="queryParam.approvalTimeDate"
+                    @change="onChangeapprovalTime"
+                  />
+                </a-form-item>
+              </a-col>
+              <a-col :md="8" :sm="24">
+                <a-form-item label="状态 1-待审批 2-通过 3-拒绝 4-已打款">
+                  <a-input
+                    v-model="queryParam.status"
+                    allow-clear
+                    placeholder="请输入状态 1-待审批 2-通过 3-拒绝 4-已打款"
+                  />
+                </a-form-item>
+              </a-col>
+              <a-col :md="8" :sm="24">
+                <a-form-item label="帐户">
+                  <a-input v-model="queryParam.account" allow-clear placeholder="请输入帐户" />
+                </a-form-item>
+              </a-col>
+              <a-col :md="8" :sm="24">
+                <a-form-item label="户名">
+                  <a-input v-model="queryParam.userName" allow-clear placeholder="请输入户名" />
+                </a-form-item>
+              </a-col>
+              <a-col :md="8" :sm="24">
+                <a-form-item label="保证金账单ID">
+                  <a-input v-model="queryParam.billId" allow-clear placeholder="请输入保证金账单ID" />
                 </a-form-item>
               </a-col>
             </template>
@@ -39,24 +73,33 @@
         :rowKey="record => record.id"
         :rowSelection="options.rowSelection"
       >
-        <template class="table-operator" slot="operator" v-if="hasPerm('recharge:add')">
-          <!-- <a-button type="primary" v-if="hasPerm('recharge:add')" icon="plus" @click="$refs.addForm.add()"
-            >新增充值记录</a-button
-          >
+        <template class="table-operator" slot="operator" v-if="hasPerm('refund:add')">
+          <!-- <a-button type="primary" v-if="hasPerm('refund:add')" icon="plus" @click="$refs.addForm.add()"
+            >新增保证金退款记录</a-button
+          > -->
           <a-button
             type="danger"
             :disabled="selectedRowKeys.length < 1"
-            v-if="hasPerm('recharge:delete')"
+            v-if="hasPerm('refund:delete')"
             @click="batchDelete"
             ><a-icon type="delete" />批量删除</a-button
-          > -->
-          <x-down v-if="hasPerm('recharge:export')" ref="batchExport" @batchExport="batchExport" />
+          >
+          <x-down v-if="hasPerm('refund:export')" ref="batchExport" @batchExport="batchExport" />
         </template>
         <span slot="action" slot-scope="text, record">
+          <!-- <a v-if="hasPerm('refund:edit')" @click="$refs.editForm.edit(record)">编辑</a> -->
           <a v-if="record.status === 1" @click="$refs.setIng.edit(record)">审核</a>
-          <a-divider type="vertical" v-if="record.status == 1" />
           <a-popconfirm
-            v-if="hasPerm('recharge:delete')"
+            v-if="record.status === 2"
+            placement="topRight"
+            title="是否完成打款？"
+            @confirm="() => forceExist(record)"
+          >
+            <a>完成打款</a>
+          </a-popconfirm>
+          <a-divider type="vertical" v-if="record.status === 1 || record.status === 2" />
+          <a-popconfirm
+            v-if="hasPerm('refund:delete')"
             placement="topRight"
             title="确认删除？"
             @confirm="() => singleDelete(record)"
@@ -73,7 +116,8 @@
 </template>
 <script>
 import { STable, XDown } from '@/components'
-import { rechargePage, rechargeDelete, rechargeExport } from '@/api/modular/main/Recharge/rechargeManage'
+import moment from 'moment'
+import { refundPage, refundDelete, refundExport, makePayment } from '@/api/modular/main/Refund/refundManage'
 import addForm from './addForm.vue'
 import editForm from './editForm.vue'
 import setIng from './setting'
@@ -81,8 +125,8 @@ export default {
   components: {
     STable,
     addForm,
-    setIng,
     editForm,
+    setIng,
     XDown
   },
   data() {
@@ -94,19 +138,19 @@ export default {
       // 表头
       columns: [
         {
-          title: '充值人',
+          title: '退款人',
           align: 'center',
-          dataIndex: 'rechargeUserName'
-        },
-        {
-          title: '帐户',
-          align: 'center',
-          dataIndex: 'account'
+          dataIndex: 'refundUserName'
         },
         {
           title: '金额',
           align: 'center',
           dataIndex: 'amount'
+        },
+        {
+          title: '审批人',
+          align: 'center',
+          dataIndex: 'approvalUserName'
         },
         {
           title: '审批备注',
@@ -119,23 +163,18 @@ export default {
           dataIndex: 'approvalTime'
         },
         {
-          title: '审批人',
-          align: 'center',
-          dataIndex: 'approvalUserName'
-        },
-        {
-          title: '充值状态',
+          title: '退款状态',
           align: 'center',
           dataIndex: 'status',
           customRender: text => {
-            return text === 1 ? '待审批' : text === 2 ? '通过' : '拒绝'
+            return text === 1 ? '待审批' : text === 2 ? '通过' : text === 3 ? '拒绝' : '已打款'
           }
         }
       ],
       tstyle: { 'padding-bottom': '0px', 'margin-bottom': '10px' },
       // 加载数据方法 必须为 Promise 对象
       loadData: parameter => {
-        return rechargePage(Object.assign(parameter, this.queryParam)).then(res => {
+        return refundPage(Object.assign(parameter, this.switchingDate())).then(res => {
           return res.data
         })
       },
@@ -156,7 +195,7 @@ export default {
     }
   },
   created() {
-    if (this.hasPerm('recharge:edit') || this.hasPerm('recharge:delete')) {
+    if (this.hasPerm('refund:edit') || this.hasPerm('refund:delete')) {
       this.columns.push({
         title: '操作',
         width: '150px',
@@ -166,18 +205,36 @@ export default {
     }
   },
   methods: {
-    pass(record) {
-      console.log(record)
+    moment,
+    forceExist(record) {
+      makePayment({ ...record, status: 4 }).then(res => {
+        if (res.success) {
+          this.$refs.table.refresh()
+        } else {
+          this.$message.error('操作失败：' + res.message)
+        }
+      })
     },
-    refuse(record) {
-      console.log(record)
+    /**
+     * 查询参数组装
+     */
+    switchingDate() {
+      const queryParamapprovalTime = this.queryParam.approvalTimeDate
+      if (queryParamapprovalTime != null) {
+        this.queryParam.approvalTime = moment(queryParamapprovalTime).format('YYYY-MM-DD')
+        if (queryParamapprovalTime.length < 1) {
+          delete this.queryParam.approvalTime
+        }
+      }
+      const obj = JSON.parse(JSON.stringify(this.queryParam))
+      return obj
     },
     /**
      * 单个删除
      */
     singleDelete(record) {
       const param = [{ id: record.id }]
-      this.rechargeDelete(param)
+      this.refundDelete(param)
     },
     /**
      * 批量删除
@@ -186,10 +243,10 @@ export default {
       const paramIds = this.selectedRowKeys.map(d => {
         return { id: d }
       })
-      this.rechargeDelete(paramIds)
+      this.refundDelete(paramIds)
     },
-    rechargeDelete(record) {
-      rechargeDelete(record).then(res => {
+    refundDelete(record) {
+      refundDelete(record).then(res => {
         if (res.success) {
           this.$message.success('删除成功')
           this.$refs.table.clearRefreshSelected()
@@ -201,6 +258,9 @@ export default {
     toggleAdvanced() {
       this.advanced = !this.advanced
     },
+    onChangeapprovalTime(date, dateString) {
+      this.approvalTimeDateString = dateString
+    },
     /**
      * 批量导出
      */
@@ -208,7 +268,7 @@ export default {
       const paramIds = this.selectedRowKeys.map(d => {
         return { id: d }
       })
-      rechargeExport(paramIds).then(res => {
+      refundExport(paramIds).then(res => {
         this.$refs.batchExport.downloadfile(res)
       })
     },
