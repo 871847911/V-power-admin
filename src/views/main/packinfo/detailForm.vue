@@ -103,8 +103,8 @@
           </a-col>
         </a-row>
         <a-row :gutter="24">
-          <a-col :md="12" :sm="24"
-            ><a-form-item label="默认库存" :labelCol="labelCol" :wrapperCol="wrapperCol" has-feedback>
+          <a-col :md="12" :sm="24">
+            <a-form-item label="默认库存" :labelCol="labelCol" :wrapperCol="wrapperCol" has-feedback>
               <a-input-number
                 disabled
                 placeholder="请输入默认库存"
@@ -113,8 +113,8 @@
               />
             </a-form-item>
           </a-col>
-          <a-col :md="12" :sm="24"
-            ><a-form-item label="描述" :labelCol="labelCol" :wrapperCol="wrapperCol" has-feedback>
+          <a-col :md="12" :sm="24">
+            <a-form-item label="描述" :labelCol="labelCol" :wrapperCol="wrapperCol" has-feedback>
               <a-input
                 disabled
                 placeholder="请输入描述"
@@ -269,14 +269,15 @@ export default {
     // 初始化方法
     detail(record) {
       this.visible = true
-      packInfoDetail({ id: record.id }).then(res => {
+      packInfoDetail({ id: record.id }).then(data => {
         roomInfoPage({ bnbId: record.bnbId }).then(res => {
           this.roomTypeList = res.data.rows || []
           let facilities = record.facilities.split(',')
           facilities = facilities.map(item => Number(item))
+          const fangxId = data.data.roomInfos && data.data.roomInfos.map(item => item.id)
           setTimeout(() => {
             this.form.setFieldsValue({
-              fangxId: record.fangxId,
+              fangxId: fangxId,
               bnbId: record.bnbId,
               category: record.category,
               defaultPrice: record.defaultPrice,

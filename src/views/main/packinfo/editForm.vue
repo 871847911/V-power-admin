@@ -294,7 +294,7 @@
 </template>
 
 <script>
-import { packInfoEdit } from '@/api/modular/main/packinfo/packInfoManage'
+import { packInfoEdit, packInfoDetail } from '@/api/modular/main/packinfo/packInfoManage'
 import { roomInfoPage } from '@/api/modular/main/RoomInfo/roomInfoManage'
 import Vue from 'vue'
 import { ACCESS_TOKEN } from '@/store/mutation-types'
@@ -303,6 +303,7 @@ export default {
   data() {
     return {
       BASE_URL: process.env.VUE_APP_API_BASE_URL,
+      roomInfos: [],
       Authorization: 'Bearer ' + token,
       fileList: [],
       uploadingFile: false,
@@ -348,6 +349,87 @@ export default {
     }
   },
   methods: {
+    // 初始化方法
+    normFiles(e) {
+      if (e.file.status === 'uploading') {
+        this.uploadingFile = true
+      }
+      if (e.file.status === 'removed') {
+        this.fileList = []
+        this.uploadingFile = false
+        return {} && []
+      }
+      if (e.file.status === 'done') {
+        this.fileList = []
+        this.fileList.push(e.file.response.data)
+        this.uploadingFile = false
+      }
+      return e && e.fileList
+    },
+    normFiles2(e) {
+      if (e.file.status === 'uploading') {
+        this.uploadingFile2 = true
+      }
+      if (e.file.status === 'removed') {
+        this.fileList2 = []
+        this.uploadingFile2 = false
+        return {} && []
+      }
+      if (e.file.status === 'done') {
+        this.fileList2 = []
+        this.fileList2.push(e.file.response.data)
+        this.uploadingFile2 = false
+      }
+      return e && e.fileList
+    },
+    normFiles3(e) {
+      if (e.file.status === 'uploading') {
+        this.uploadingFile3 = true
+      }
+      if (e.file.status === 'removed') {
+        this.fileList3 = []
+        this.uploadingFile3 = false
+        return {} && []
+      }
+      if (e.file.status === 'done') {
+        this.fileList3 = []
+        this.fileList3.push(e.file.response.data)
+        this.uploadingFile3 = false
+      }
+      return e && e.fileList
+    },
+    normFiles4(e) {
+      if (e.file.status === 'uploading') {
+        this.uploadingFile4 = true
+      }
+      if (e.file.status === 'removed') {
+        this.fileList4 = []
+        this.uploadingFile4 = false
+        return {} && []
+      }
+      if (e.file.status === 'done') {
+        this.fileList4 = []
+        this.fileList4.push(e.file.response.data)
+        this.uploadingFile4 = false
+      }
+      return e && e.fileList
+    },
+    normFiles5(e) {
+      if (e.file.status === 'uploading') {
+        this.uploadingFile5 = true
+      }
+      if (e.file.status === 'removed') {
+        this.fileList5 = []
+        this.uploadingFile5 = false
+        return {} && []
+      }
+      if (e.file.status === 'done') {
+        this.fileList5 = []
+        this.fileList5.push(e.file.response.data)
+        this.uploadingFile5 = false
+      }
+      return e && e.fileList
+    },
     onchange(e) {
       this.roomTypeList = []
       roomInfoPage({ bnbId: e }).then(res => {
@@ -357,39 +439,47 @@ export default {
     // 初始化方法
     edit(record) {
       this.visible = true
-      roomInfoPage({ bnbId: record.bnbId }).then(res => {
-        this.roomTypeList = res.data.rows || []
-        let facilities = record.facilities.split(',')
-        facilities = facilities.map(item => Number(item))
-        setTimeout(() => {
-          this.form.setFieldsValue({
-            fangxId: record.fangxId,
-            bnbId: record.bnbId,
-            category: record.category,
-            defaultPrice: record.defaultPrice,
-            defaultStock: record.defaultStock,
-            description: record.description,
-            facilities,
-            hotPoint: record.hotPoint,
-            id: record.id,
-            mainTitle: record.mainTitle,
-            picId: record.picId,
-            saleAmt: record.saleAmt,
-            viceTitle: record.viceTitle,
-            status: record.status,
-            vr: record.vr
-          })
-        }, 100)
-        this.fileList = [record.picId]
-        this.fileList2 = [record.graphicDescId]
-        this.fileList3 = [record.productContentId]
-        this.fileList4 = [record.purchaseNotesId]
-        this.fileList5 = [record.useExplanationId]
-        this.url = `${this.BASE_URL}/sysFileInfo/preview?id=${record.picId}`
-        this.url2 = `${this.BASE_URL}/sysFileInfo/preview?id=${record.graphicDescId}`
-        this.url3 = `${this.BASE_URL}/sysFileInfo/preview?id=${record.productContentId}`
-        this.url4 = `${this.BASE_URL}/sysFileInfo/preview?id=${record.purchaseNotesId}`
-        this.url5 = `${this.BASE_URL}/sysFileInfo/preview?id=${record.useExplanationId}`
+      packInfoDetail({ id: record.id }).then(data => {
+        roomInfoPage({ bnbId: record.bnbId }).then(res => {
+          this.roomTypeList = res.data.rows || []
+          let facilities = record.facilities.split(',')
+          facilities = facilities.map(item => Number(item))
+          this.roomInfos = data.data || []
+          const fangxId = data.data.roomInfos && data.data.roomInfos.map(item => item.id)
+          setTimeout(() => {
+            this.form.setFieldsValue({
+              fangxId: fangxId,
+              bnbId: record.bnbId,
+              category: record.category,
+              defaultPrice: record.defaultPrice,
+              defaultStock: record.defaultStock,
+              description: record.description,
+              facilities,
+              hotPoint: record.hotPoint,
+              id: data.id,
+              mainTitle: record.mainTitle,
+              picId: record.picId,
+              saleAmt: record.saleAmt,
+              viceTitle: record.viceTitle,
+              status: record.status,
+              vr: record.vr,
+              graphicDescId: record.graphicDescId,
+              productContentId: record.productContentId,
+              purchaseNotesId: record.purchaseNotesId,
+              useExplanationId: record.useExplanationId
+            })
+          }, 100)
+          this.fileList = [record.picId]
+          this.fileList2 = [record.graphicDescId]
+          this.fileList3 = [record.productContentId]
+          this.fileList4 = [record.purchaseNotesId]
+          this.fileList5 = [record.useExplanationId]
+          this.url = `${this.BASE_URL}/sysFileInfo/preview?id=${record.picId}`
+          this.url2 = `${this.BASE_URL}/sysFileInfo/preview?id=${record.graphicDescId}`
+          this.url3 = `${this.BASE_URL}/sysFileInfo/preview?id=${record.productContentId}`
+          this.url4 = `${this.BASE_URL}/sysFileInfo/preview?id=${record.purchaseNotesId}`
+          this.url5 = `${this.BASE_URL}/sysFileInfo/preview?id=${record.useExplanationId}`
+        })
       })
     },
     handleSubmit() {
@@ -409,6 +499,7 @@ export default {
           list.map(item => {
             packRoomParams.push({ roomId: item })
           })
+          console.log(values)
           const params = {
             ...values,
             facilities: JSON.parse(values.facilities).join(','),
@@ -417,7 +508,8 @@ export default {
             graphicDescId: this.fileList2[0],
             productContentId: this.fileList3[0],
             purchaseNotesId: this.fileList4[0],
-            useExplanationId: this.fileList5[0]
+            useExplanationId: this.fileList5[0],
+            id: this.roomInfos.id
           }
           packInfoEdit(params)
             .then(res => {
@@ -439,6 +531,11 @@ export default {
       })
     },
     handleCancel() {
+      this.fileList = []
+      this.fileList2 = []
+      this.fileList3 = []
+      this.fileList4 = []
+      this.fileList5 = []
       this.form.resetFields()
       this.visible = false
     }

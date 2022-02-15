@@ -42,6 +42,24 @@
             @change="endDtOnChange"
           />
         </a-form-item>
+        <a-form-item label="预约专属开始时间" :labelCol="labelCol" :wrapperCol="wrapperCol" has-feedback>
+          <a-date-picker
+            show-time
+            style="width: 100%"
+            placeholder="请选择预约专属开始时间"
+            v-decorator="['exclusiveStartDt', { rules: [{ required: true, message: '请选择预约专属开始时间！' }] }]"
+            @change="exclusiveStartDtChange"
+          />
+        </a-form-item>
+        <a-form-item label="预约专属结束时间" :labelCol="labelCol" :wrapperCol="wrapperCol" has-feedback>
+          <a-date-picker
+            show-time
+            style="width: 100%"
+            placeholder="请选择预约专属结束时间"
+            v-decorator="['exclusiveEndDt', { rules: [{ required: true, message: '请选择预约专属结束时间！' }] }]"
+            @change="exclusiveEndDtOnChange"
+          />
+        </a-form-item>
         <a-form-item label="主标题" :labelCol="labelCol" :wrapperCol="wrapperCol" has-feedback>
           <a-input
             placeholder="请输入主标题"
@@ -61,11 +79,27 @@
             }}</a-select-option>
           </a-select>
         </a-form-item>
-        <a-form-item label="主图id" :labelCol="labelCol" :wrapperCol="wrapperCol" has-feedback>
-          <a-input
-            placeholder="请输入主图id"
-            v-decorator="['picId', { rules: [{ required: true, message: '请输入主图id！' }] }]"
-          />
+        <a-form-item label="主图" :labelCol="labelCol" :wrapperCol="wrapperCol" has-feedback>
+          <a-upload
+            :action="`${BASE_URL}/sysFileInfo/upload`"
+            listType="picture-card"
+            :headers="{
+              Authorization: Authorization
+            }"
+            v-decorator="[
+              'picId',
+              {
+                rules: [{ required: true, message: '请上传图片' }],
+                valuePropName: 'fileList',
+                getValueFromEvent: normFiles
+              }
+            ]"
+          >
+            <div v-if="fileList.length < 1 && uploadingFile == false">
+              <a-icon type="plus" />
+              <div class="ant-upload-text">上传</div>
+            </div>
+          </a-upload>
         </a-form-item>
         <a-form-item label="活动价格" :labelCol="labelCol" :wrapperCol="wrapperCol" has-feedback>
           <a-input-number
@@ -104,9 +138,16 @@
 
 <script>
 import { activityAdd } from '@/api/modular/main/Activity/activityManage'
+import Vue from 'vue'
+import { ACCESS_TOKEN } from '@/store/mutation-types'
+const token = Vue.ls.get(ACCESS_TOKEN)
 export default {
   data() {
     return {
+      BASE_URL: process.env.VUE_APP_API_BASE_URL,
+      fileList: [],
+      uploadingFile: false,
+      Authorization: 'Bearer ' + token,
       labelCol: {
         xs: { span: 24 },
         sm: { span: 5 }
@@ -118,6 +159,8 @@ export default {
       activeDtDateString: '',
       endDtDateString: '',
       startDtDateString: '',
+      exclusiveStartDt: '',
+      exclusiveEndDt: '',
       visible: false,
       confirmLoading: false,
       form: this.$form.createForm(this)
@@ -132,6 +175,21 @@ export default {
     }
   },
   methods: {
+    normFiles(e) {
+      if (e.file.status === 'uploading') {
+        this.uploadingFile = true
+      }
+      if (e.file.status === 'removed') {
+        this.fileList = []
+        this.uploadingFile = false
+        return {} && []
+      }
+      if (e.file.status === 'done') {
+        this.fileList.push(e.file.response.data)
+        this.uploadingFile = false
+      }
+      return e && e.fileList
+    },
     // 初始化方法
     add(record) {
       this.visible = true
@@ -154,7 +212,13 @@ export default {
           values.activeDt = this.activeDtDateString || null
           values.endDt = this.endDtDateString || null
           values.startDt = this.startDtDateString || null
-          activityAdd(values)
+          values.exclusiveStartDt = this.exclusiveStartDt || null
+          values.exclusiveEndDt = this.exclusiveEndDt || null
+          const parmas = {
+            ...values,
+            picId: this.fileList[0]
+          }
+          activityAdd(parmas)
             .then(res => {
               if (res.success) {
                 this.$message.success('新增成功')
@@ -180,6 +244,12 @@ export default {
       this.endDtDateString = dateString
     },
     startDtOnChange(date, dateString) {
+      this.startDtDateString = dateString
+    },
+    exclusiveStartDtChange(date, dateString) {
+      this.startDtDateString = dateString
+    },
+    exclusiveEndDtOnChange(date, dateString) {
       this.startDtDateString = dateString
     },
     handleCancel() {

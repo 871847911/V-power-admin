@@ -125,9 +125,14 @@ export default {
       // 表头
       columns: [
         {
-          title: '活动日期',
+          title: '主标题',
           align: 'center',
-          dataIndex: 'activeDt'
+          dataIndex: 'mainTitle'
+        },
+        {
+          title: '副标题',
+          align: 'center',
+          dataIndex: 'viceTitle'
         },
         {
           title: '民宿',
@@ -139,29 +144,47 @@ export default {
           }
         },
         {
+          title: '活动日期',
+          align: 'center',
+          dataIndex: 'activeDt',
+          customRender: text => {
+            return moment(text).format('YYYY-MM-DD')
+          }
+        },
+        {
+          title: '有效开始日期',
+          align: 'center',
+          dataIndex: 'startDt',
+          customRender: text => {
+            return moment(text).format('YYYY-MM-DD')
+          }
+        },
+        {
           title: '有效结束日期',
           align: 'center',
-          dataIndex: 'endDt'
+          dataIndex: 'endDt',
+          customRender: text => {
+            return moment(text).format('YYYY-MM-DD')
+          }
         },
         {
-          title: '主标题',
+          title: '套餐名称',
           align: 'center',
-          dataIndex: 'mainTitle'
-        },
-        {
-          title: '原价/抵扣价',
-          align: 'center',
-          dataIndex: 'originalPrice'
-        },
-        {
-          title: '套餐id',
-          align: 'center',
-          dataIndex: 'packId'
+          dataIndex: 'packId',
+          customRender: text => {
+            const name = (this.packIList.find(item => item.id === text) || {}).mainTitle
+            return name
+          }
         },
         {
           title: '主图id',
           align: 'center',
           dataIndex: 'picId'
+        },
+        {
+          title: '原价/抵扣价',
+          align: 'center',
+          dataIndex: 'originalPrice'
         },
         {
           title: '活动价格',
@@ -184,19 +207,9 @@ export default {
           dataIndex: 'sellAmt'
         },
         {
-          title: '有效开始日期',
-          align: 'center',
-          dataIndex: 'startDt'
-        },
-        {
           title: '库存',
           align: 'center',
           dataIndex: 'stock'
-        },
-        {
-          title: '副标题',
-          align: 'center',
-          dataIndex: 'viceTitle'
         }
       ],
       tstyle: { 'padding-bottom': '0px', 'margin-bottom': '10px' },
