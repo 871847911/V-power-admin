@@ -88,7 +88,7 @@ export default {
         return {} && []
       }
       if (e.file.status === 'done') {
-        this.fileList.push(e.file.response.data)
+        this.fileList = [e.file.response.data]
         this.url = ''
         this.uploadingFile = false
       }
@@ -143,6 +143,7 @@ export default {
       })
     },
     handleCancel() {
+      this.fileList = []
       this.form.resetFields()
       this.visible = false
     }

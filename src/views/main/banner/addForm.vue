@@ -118,6 +118,7 @@ export default {
             packId: values.packId,
             imgId: this.fileList[0]
           }
+          console.log(parmas)
           bannerAdd(parmas)
             .then(res => {
               if (res.success) {
@@ -138,6 +139,7 @@ export default {
       })
     },
     handleCancel() {
+      this.fileList = []
       this.form.resetFields()
       this.visible = false
     }

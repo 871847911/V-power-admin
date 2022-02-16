@@ -151,6 +151,7 @@
                   'picId',
                   {
                     rules: [{ required: true, message: '请上传主图' }],
+                    initialValue: fileList,
                     valuePropName: 'fileList',
                     getValueFromEvent: normFiles
                   }
@@ -176,6 +177,7 @@
                   'businessLicense',
                   {
                     rules: [{ required: true, message: '请上传营业执照' }],
+                    initialValue: fileList2,
                     valuePropName: 'fileList',
                     getValueFromEvent: normFiles2
                   }
@@ -203,6 +205,7 @@
                   'foodBusinessLicense',
                   {
                     rules: [{ required: true, message: '请上传食品经营许可证' }],
+                    initialValue: fileList3,
                     valuePropName: 'fileList',
                     getValueFromEvent: normFiles3
                   }
@@ -228,6 +231,7 @@
                   'idCardFront',
                   {
                     rules: [{ required: true, message: '请上传身份证-正面' }],
+                    initialValue: fileList4,
                     valuePropName: 'fileList',
                     getValueFromEvent: normFiles4
                   }
@@ -254,6 +258,7 @@
                   'idCardBack',
                   {
                     rules: [{ required: true, message: '请上传身份证-反面' }],
+                    initialValue: fileList5,
                     valuePropName: 'fileList',
                     getValueFromEvent: normFiles5
                   }
@@ -279,6 +284,7 @@
                   'specialBusinessLicense',
                   {
                     rules: [{ required: true, message: '请上传特种行业许可证' }],
+                    initialValue: fileList6,
                     valuePropName: 'fileList',
                     getValueFromEvent: normFiles6
                   }
@@ -306,6 +312,7 @@ const token = Vue.ls.get(ACCESS_TOKEN)
 export default {
   data() {
     return {
+      roomInfos: {},
       BASE_URL: process.env.VUE_APP_API_BASE_URL,
       Authorization: 'Bearer ' + token,
       fileList: [],
@@ -350,8 +357,8 @@ export default {
         return {} && []
       }
       if (e.file.status === 'done') {
-        this.fileList = []
-        this.fileList.push(e.file.response.data)
+        this.fileList = [e.file.response.data]
+        this.url = ''
         this.uploadingFile = false
       }
       return e && e.fileList
@@ -366,8 +373,8 @@ export default {
         return {} && []
       }
       if (e.file.status === 'done') {
-        this.fileList2 = []
-        this.fileList2.push(e.file.response.data)
+        this.fileList2 = [e.file.response.data]
+        this.url2 = ''
         this.uploadingFile2 = false
       }
       return e && e.fileList
@@ -382,8 +389,8 @@ export default {
         return {} && []
       }
       if (e.file.status === 'done') {
-        this.fileList3 = []
-        this.fileList3.push(e.file.response.data)
+        this.fileList3 = [e.file.response.data]
+        this.url3 = ''
         this.uploadingFile3 = false
       }
       return e && e.fileList
@@ -398,8 +405,8 @@ export default {
         return {} && []
       }
       if (e.file.status === 'done') {
-        this.fileList4 = []
-        this.fileList4.push(e.file.response.data)
+        this.fileList4 = [e.file.response.data]
+        this.url4 = ''
         this.uploadingFile4 = false
       }
       return e && e.fileList
@@ -414,8 +421,8 @@ export default {
         return {} && []
       }
       if (e.file.status === 'done') {
-        this.fileList5 = []
-        this.fileList5.push(e.file.response.data)
+        this.fileList5 = [e.file.response.data]
+        this.url5 = ''
         this.uploadingFile5 = false
       }
       return e && e.fileList
@@ -430,8 +437,8 @@ export default {
         return {} && []
       }
       if (e.file.status === 'done') {
-        this.fileList6 = []
-        this.fileList6.push(e.file.response.data)
+        this.fileList6 = [e.file.response.data]
+        this.url6 = ''
         this.uploadingFile6 = false
       }
       return e && e.fileList
@@ -439,6 +446,7 @@ export default {
     // 初始化方法
     edit(record) {
       this.visible = true
+      this.roomInfos = record || {}
       setTimeout(() => {
         this.form.setFieldsValue({
           address: record.address,
@@ -447,21 +455,15 @@ export default {
           Xvalue: record.Xvalue,
           userId: record.userId,
           block: record.block,
-          businessLicense: record.businessLicense,
           city: record.city,
           country: record.country,
           description: record.description,
           district: record.district,
-          foodBusinessLicense: record.foodBusinessLicense,
           id: record.id,
-          idCardBack: record.idCardBack,
-          idCardFront: record.idCardFront,
           lat: record.lat,
           lng: record.lng,
           name: record.name,
-          picId: record.picId,
           province: record.province,
-          specialBusinessLicense: record.specialBusinessLicense,
           tel: record.tel,
           town: record.town,
           vr: record.vr
@@ -492,7 +494,17 @@ export default {
               values[key] = JSON.stringify(values[key])
             }
           }
-          bnbInfoEdit(values)
+          const parmas = {
+            ...values,
+            picId: this.fileList[0],
+            businessLicense: this.fileList2[0],
+            foodBusinessLicense: this.fileList3[0],
+            idCardFront: this.fileList4[0],
+            idCardBack: this.fileList5[0],
+            specialBusinessLicense: this.fileList6[0],
+            id: this.roomInfos.id
+          }
+          bnbInfoEdit(parmas)
             .then(res => {
               if (res.success) {
                 this.$message.success('编辑成功')

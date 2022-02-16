@@ -169,6 +169,7 @@
                   'picId',
                   {
                     rules: [{ required: true, message: '请上传主图' }],
+                    initialValue: fileList,
                     valuePropName: 'fileList',
                     getValueFromEvent: normFiles
                   }
@@ -194,6 +195,7 @@
                   'graphicDescId',
                   {
                     rules: [{ required: true, message: '请上传图文描述图' }],
+                    initialValue: fileList2,
                     valuePropName: 'fileList',
                     getValueFromEvent: normFiles2
                   }
@@ -221,6 +223,7 @@
                   'productContentId',
                   {
                     rules: [{ required: true, message: '请上传商品包含图' }],
+                    initialValue: fileList3,
                     valuePropName: 'fileList',
                     getValueFromEvent: normFiles3
                   }
@@ -246,6 +249,7 @@
                   'purchaseNotesId',
                   {
                     rules: [{ required: true, message: '请上传购买须知图' }],
+                    initialValue: fileList4,
                     valuePropName: 'fileList',
                     getValueFromEvent: normFiles4
                   }
@@ -273,6 +277,7 @@
                   'useExplanationId',
                   {
                     rules: [{ required: true, message: '请上传使用说明图' }],
+                    initialValue: fileList5,
                     valuePropName: 'fileList',
                     getValueFromEvent: normFiles5
                   }
@@ -362,6 +367,7 @@ export default {
       if (e.file.status === 'done') {
         this.fileList = []
         this.fileList.push(e.file.response.data)
+        this.url = ''
         this.uploadingFile = false
       }
       return e && e.fileList
@@ -378,6 +384,7 @@ export default {
       if (e.file.status === 'done') {
         this.fileList2 = []
         this.fileList2.push(e.file.response.data)
+        this.url2 = ''
         this.uploadingFile2 = false
       }
       return e && e.fileList
@@ -394,6 +401,7 @@ export default {
       if (e.file.status === 'done') {
         this.fileList3 = []
         this.fileList3.push(e.file.response.data)
+        this.url3 = ''
         this.uploadingFile3 = false
       }
       return e && e.fileList
@@ -410,6 +418,7 @@ export default {
       if (e.file.status === 'done') {
         this.fileList4 = []
         this.fileList4.push(e.file.response.data)
+        this.url4 = ''
         this.uploadingFile4 = false
       }
       return e && e.fileList
@@ -426,6 +435,7 @@ export default {
       if (e.file.status === 'done') {
         this.fileList5 = []
         this.fileList5.push(e.file.response.data)
+        this.url5 = ''
         this.uploadingFile5 = false
       }
       return e && e.fileList
@@ -458,15 +468,10 @@ export default {
               hotPoint: record.hotPoint,
               id: data.id,
               mainTitle: record.mainTitle,
-              picId: record.picId,
               saleAmt: record.saleAmt,
               viceTitle: record.viceTitle,
               status: record.status,
-              vr: record.vr,
-              graphicDescId: record.graphicDescId,
-              productContentId: record.productContentId,
-              purchaseNotesId: record.purchaseNotesId,
-              useExplanationId: record.useExplanationId
+              vr: record.vr
             })
           }, 100)
           this.fileList = [record.picId]

@@ -20,7 +20,7 @@
           <a href="_self">条款</a>
         </div> -->
         <div class="copyright">
-          Copyright © 2021 宿V次方-后台管理系统
+          <a href="https://beian.miit.gov.cn/#/">浙ICP备2022001458号-2</a> 宿V次方-后台管理系统
         </div>
       </div>
     </div>
