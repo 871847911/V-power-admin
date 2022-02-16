@@ -115,10 +115,10 @@
             v-decorator="['reservationPrice', { rules: [{ required: true, message: '请输入预约金价格！' }] }]"
           />
         </a-form-item>
-        <a-form-item label="膨胀比例" :labelCol="labelCol" :wrapperCol="wrapperCol" has-feedback>
+        <a-form-item label="膨胀金额" :labelCol="labelCol" :wrapperCol="wrapperCol" has-feedback>
           <a-input
-            placeholder="请输入膨胀比例"
-            v-decorator="['scale', { rules: [{ required: true, message: '请输入膨胀比例！' }] }]"
+            placeholder="请输入膨胀金额"
+            v-decorator="['scale', { rules: [{ required: true, message: '请输入膨胀金额！' }] }]"
           />
         </a-form-item>
         <a-form-item label="销量" :labelCol="labelCol" :wrapperCol="wrapperCol" has-feedback>
@@ -247,10 +247,10 @@ export default {
       this.startDtDateString = dateString
     },
     exclusiveStartDtChange(date, dateString) {
-      this.startDtDateString = dateString
+      this.exclusiveStartDt = dateString
     },
     exclusiveEndDtOnChange(date, dateString) {
-      this.startDtDateString = dateString
+      this.exclusiveEndDt = dateString
     },
     handleCancel() {
       this.activeDtDateString = ''
@@ -259,6 +259,11 @@ export default {
       this.form.getFieldDecorator('endDt', { initialValue: null })
       this.startDtDateString = ''
       this.form.getFieldDecorator('startDt', { initialValue: null })
+      this.exclusiveStartDt = ''
+      this.form.getFieldDecorator('exclusiveStartDt', { initialValue: null })
+      this.exclusiveEndDt = ''
+      this.form.getFieldDecorator('exclusiveEndDt', { initialValue: null })
+
       this.form.resetFields()
       this.visible = false
     }

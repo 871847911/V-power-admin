@@ -197,7 +197,7 @@ export default {
           dataIndex: 'reservationPrice'
         },
         {
-          title: '膨胀比例',
+          title: '膨胀金额',
           align: 'center',
           dataIndex: 'scale'
         },
