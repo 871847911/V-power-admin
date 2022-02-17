@@ -11,7 +11,8 @@
       <a-form :form="form">
         <a-form-item label="活动时间" :labelCol="labelCol" :wrapperCol="wrapperCol" has-feedback>
           <a-date-picker
-            show-time
+            :show-time="{ format: 'HH:mm' }"
+            format="YYYY-MM-DD HH:mm"
             style="width: 100%"
             placeholder="请选择活动时间"
             v-decorator="['activeDt', { rules: [{ required: true, message: '请选择活动时间！' }] }]"
@@ -44,7 +45,8 @@
         </a-form-item>
         <a-form-item label="预约专属开始时间" :labelCol="labelCol" :wrapperCol="wrapperCol" has-feedback>
           <a-date-picker
-            show-time
+            :show-time="{ format: 'HH:mm' }"
+            format="YYYY-MM-DD HH:mm"
             style="width: 100%"
             placeholder="请选择预约专属开始时间"
             v-decorator="['exclusiveStartDt', { rules: [{ required: true, message: '请选择预约专属开始时间！' }] }]"
@@ -53,7 +55,8 @@
         </a-form-item>
         <a-form-item label="预约专属结束时间" :labelCol="labelCol" :wrapperCol="wrapperCol" has-feedback>
           <a-date-picker
-            show-time
+            :show-time="{ format: 'HH:mm' }"
+            format="YYYY-MM-DD HH:mm"
             style="width: 100%"
             placeholder="请选择预约专属结束时间"
             v-decorator="['exclusiveEndDt', { rules: [{ required: true, message: '请选择预约专属结束时间！' }] }]"

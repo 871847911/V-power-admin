@@ -446,7 +446,9 @@ export default {
     // 初始化方法
     edit(record) {
       this.visible = true
+
       this.roomInfos = record || {}
+      console.log(record)
       setTimeout(() => {
         this.form.setFieldsValue({
           address: record.address,
@@ -469,12 +471,12 @@ export default {
           vr: record.vr
         })
       }, 100)
-      this.fileList = [record.picId]
-      this.fileList2 = [record.businessLicense]
-      this.fileList3 = [record.foodBusinessLicense]
-      this.fileList4 = [record.idCardFront]
-      this.fileList5 = [record.idCardBack]
-      this.fileList6 = [record.specialBusinessLicense]
+      this.fileList = record.picId ? [record.picId] : []
+      this.fileList2 = record.businessLicense ? [record.businessLicense] : []
+      this.fileList3 = record.foodBusinessLicense ? [record.foodBusinessLicense] : []
+      this.fileList4 = record.idCardFront ? [record.idCardFront] : []
+      this.fileList5 = record.idCardBack ? [record.idCardBack] : []
+      this.fileList6 = record.specialBusinessLicense ? [record.specialBusinessLicense] : []
       this.url = `${this.BASE_URL}/sysFileInfo/preview?id=${record.picId}`
       this.url2 = `${this.BASE_URL}/sysFileInfo/preview?id=${record.businessLicense}`
       this.url3 = `${this.BASE_URL}/sysFileInfo/preview?id=${record.foodBusinessLicense}`
