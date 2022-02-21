@@ -1,6 +1,6 @@
 <template>
   <a-modal
-    title="文件信息详情"
+    title="套餐详情"
     :footer="null"
     :width="900"
     :visible="visible"

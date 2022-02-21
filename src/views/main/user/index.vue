@@ -98,9 +98,9 @@
                     <a>重置密码</a>
                   </a-popconfirm>
                 </a-menu-item>
-                <a-menu-item v-if="hasPerm('sysUser:grantRole')">
+                <!-- <a-menu-item v-if="hasPerm('sysUser:grantRole')">
                   <a @click="$refs.userRoleForm.userRole(record)">追加保证金</a>
-                </a-menu-item>
+                </a-menu-item> -->
                 <a-menu-item v-if="hasPerm('sysUser:delete')">
                   <a-popconfirm placement="topRight" title="确认删除？" @confirm="() => singleDelete(record)">
                     <a>删除</a>

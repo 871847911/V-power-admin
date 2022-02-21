@@ -177,11 +177,6 @@ export default {
           }
         },
         {
-          title: '主图id',
-          align: 'center',
-          dataIndex: 'picId'
-        },
-        {
           title: '原价/抵扣价',
           align: 'center',
           dataIndex: 'originalPrice'

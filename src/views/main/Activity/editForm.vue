@@ -11,8 +11,6 @@
       <a-form :form="form">
         <a-form-item label="活动时间" :labelCol="labelCol" :wrapperCol="wrapperCol" has-feedback>
           <a-date-picker
-            :show-time="{ format: 'HH:mm' }"
-            format="YYYY-MM-DD HH:mm"
             style="width: 100%"
             placeholder="请选择活动时间"
             v-decorator="['activeDt', { rules: [{ required: true, message: '请选择活动时间！' }] }]"
@@ -29,6 +27,8 @@
         </a-form-item>
         <a-form-item label="有效开始日期" :labelCol="labelCol" :wrapperCol="wrapperCol" has-feedback>
           <a-date-picker
+            :show-time="{ format: 'HH:mm' }"
+            format="YYYY-MM-DD HH:mm"
             style="width: 100%"
             placeholder="请选择有效开始日期"
             v-decorator="['startDt', { rules: [{ required: true, message: '请选择有效开始日期！' }] }]"
@@ -37,6 +37,8 @@
         </a-form-item>
         <a-form-item label="有效结束日期" :labelCol="labelCol" :wrapperCol="wrapperCol" has-feedback>
           <a-date-picker
+            :show-time="{ format: 'HH:mm' }"
+            format="YYYY-MM-DD HH:mm"
             style="width: 100%"
             placeholder="请选择有效结束日期"
             v-decorator="['endDt', { rules: [{ required: true, message: '请选择有效结束日期！' }] }]"
@@ -202,6 +204,7 @@ export default {
     },
     // 初始化方法
     edit(record) {
+      console.log(record)
       this.visible = true
       this.record = record
       this.activeDtDateString = record.activeDt
@@ -233,13 +236,27 @@ export default {
       }
       // 时间单独处理
       if (record.endDt) {
-        this.form.getFieldDecorator('endDt', { initialValue: moment(record.endDt, 'YYYY-MM-DD') })
-        this.endDtDateString = moment(record.endDt).format('YYYY-MM-DD')
+        this.form.getFieldDecorator('endDt', { initialValue: moment(record.endDt, 'YYYY-MM-DD HH:mm') })
+        this.endDtDateString = moment(record.endDt).format('YYYY-MM-DD HH:mm')
       }
       // 时间单独处理
       if (record.startDt) {
-        this.form.getFieldDecorator('startDt', { initialValue: moment(record.startDt, 'YYYY-MM-DD') })
-        this.startDtDateString = moment(record.startDt).format('YYYY-MM-DD')
+        this.form.getFieldDecorator('startDt', { initialValue: moment(record.startDt, 'YYYY-MM-DD HH:mm') })
+        this.startDtDateString = moment(record.startDt).format('YYYY-MM-DD HH:mm')
+      }
+      // 时间单独处理
+      if (record.exclusiveStartDt) {
+        this.form.getFieldDecorator('exclusiveStartDt', {
+          initialValue: moment(record.exclusiveStartDt, 'YYYY-MM-DD HH:mm')
+        })
+        this.exclusiveStartDt = moment(record.exclusiveStartDt).format('YYYY-MM-DD HH:mm')
+      }
+      // 时间单独处理
+      if (record.exclusiveEndDt) {
+        this.form.getFieldDecorator('exclusiveEndDt', {
+          initialValue: moment(record.exclusiveEndDt, 'YYYY-MM-DD HH:mm')
+        })
+        this.exclusiveEndDt = moment(record.exclusiveEndDt).format('YYYY-MM-DD HH:mm')
       }
     },
     handleSubmit() {
@@ -299,6 +316,7 @@ export default {
       this.exclusiveEndDt = dateString
     },
     handleCancel() {
+      this.fileList = []
       this.activeDtDateString = ''
       this.form.getFieldDecorator('activeDt', { initialValue: null })
       this.endDtDateString = ''

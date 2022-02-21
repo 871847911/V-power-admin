@@ -11,8 +11,7 @@
       <a-form :form="form">
         <a-form-item label="活动时间" :labelCol="labelCol" :wrapperCol="wrapperCol" has-feedback>
           <a-date-picker
-            :show-time="{ format: 'HH:mm' }"
-            format="YYYY-MM-DD HH:mm"
+            format="YYYY-MM-DD"
             style="width: 100%"
             placeholder="请选择活动时间"
             v-decorator="['activeDt', { rules: [{ required: true, message: '请选择活动时间！' }] }]"
@@ -29,6 +28,8 @@
         </a-form-item>
         <a-form-item label="有效开始日期" :labelCol="labelCol" :wrapperCol="wrapperCol" has-feedback>
           <a-date-picker
+            :show-time="{ format: 'HH:mm' }"
+            format="YYYY-MM-DD HH:mm"
             style="width: 100%"
             placeholder="请选择有效开始日期"
             v-decorator="['startDt', { rules: [{ required: true, message: '请选择有效开始日期！' }] }]"
@@ -37,6 +38,8 @@
         </a-form-item>
         <a-form-item label="有效结束日期" :labelCol="labelCol" :wrapperCol="wrapperCol" has-feedback>
           <a-date-picker
+            :show-time="{ format: 'HH:mm' }"
+            format="YYYY-MM-DD HH:mm"
             style="width: 100%"
             placeholder="请选择有效结束日期"
             v-decorator="['endDt', { rules: [{ required: true, message: '请选择有效结束日期！' }] }]"
@@ -256,6 +259,7 @@ export default {
       this.exclusiveEndDt = dateString
     },
     handleCancel() {
+      this.fileList = []
       this.activeDtDateString = ''
       this.form.getFieldDecorator('activeDt', { initialValue: null })
       this.endDtDateString = ''
@@ -266,7 +270,6 @@ export default {
       this.form.getFieldDecorator('exclusiveStartDt', { initialValue: null })
       this.exclusiveEndDt = ''
       this.form.getFieldDecorator('exclusiveEndDt', { initialValue: null })
-
       this.form.resetFields()
       this.visible = false
     }
