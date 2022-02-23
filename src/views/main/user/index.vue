@@ -121,7 +121,6 @@
 <script>
 import { STable, XCard, XDown } from '@/components'
 import { Empty } from 'ant-design-vue'
-import { getOrgTree } from '@/api/modular/system/orgManage'
 import {
   getUserPage,
   sysUserDelete,
@@ -216,19 +215,19 @@ export default {
     /**
      * 获取到机构树，展开顶级下树节点，考虑到后期数据量变大，不建议全部展开
      */
-    getOrgTree(Object.assign(this.queryParam)).then(res => {
-      this.treeLoading = false
-      if (!res.success) {
-        return
-      }
-      this.orgTree = res.data
-      for (var item of res.data) {
-        // eslint-disable-next-line eqeqeq
-        if (item.parentId == 0) {
-          this.defaultExpandedKeys.push(item.id)
-        }
-      }
-    })
+    // getOrgTree(Object.assign(this.queryParam)).then(res => {
+    //   this.treeLoading = false
+    //   if (!res.success) {
+    //     return
+    //   }
+    //   this.orgTree = res.data
+    //   for (var item of res.data) {
+    //     // eslint-disable-next-line eqeqeq
+    //     if (item.parentId == 0) {
+    //       this.defaultExpandedKeys.push(item.id)
+    //     }
+    //   }
+    // })
     this.sysDictTypeDropDown()
     if (
       this.hasPerm('sysUser:edit') ||

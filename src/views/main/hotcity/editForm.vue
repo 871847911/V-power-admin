@@ -37,7 +37,7 @@
               <a-icon type="plus" />
               <div class="ant-upload-text">上传</div>
             </div>
-            <img v-else-if="url" :src="url" alt="" />
+            <img v-else-if="url" style="width: 200px;" :src="url" alt="" />
           </a-upload>
         </a-form-item>
         <a-form-item label="热度分" :labelCol="labelCol" :wrapperCol="wrapperCol" has-feedback>

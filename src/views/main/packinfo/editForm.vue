@@ -179,7 +179,7 @@
                   <a-icon type="plus" />
                   <div class="ant-upload-text">上传</div>
                 </div>
-                <img v-else-if="url" :src="url" alt="" />
+                <img v-else-if="url" style="width: 200px;" :src="url" alt="" />
               </a-upload>
             </a-form-item>
           </a-col>
@@ -205,7 +205,7 @@
                   <a-icon type="plus" />
                   <div class="ant-upload-text">上传</div>
                 </div>
-                <img v-else-if="url2" :src="url2" alt="" />
+                <img v-else-if="url2" style="width: 200px;" :src="url2" alt="" />
               </a-upload>
             </a-form-item>
           </a-col>
@@ -233,7 +233,7 @@
                   <a-icon type="plus" />
                   <div class="ant-upload-text">上传</div>
                 </div>
-                <img v-else-if="url3" :src="url3" alt="" />
+                <img v-else-if="url3" style="width: 200px;" :src="url3" alt="" />
               </a-upload>
             </a-form-item>
           </a-col>
@@ -259,7 +259,7 @@
                   <a-icon type="plus" />
                   <div class="ant-upload-text">上传</div>
                 </div>
-                <img v-else-if="url4" :src="url4" alt="" />
+                <img v-else-if="url4" style="width: 200px;" :src="url4" alt="" />
               </a-upload>
             </a-form-item>
           </a-col>
@@ -287,7 +287,7 @@
                   <a-icon type="plus" />
                   <div class="ant-upload-text">上传</div>
                 </div>
-                <img v-else-if="url5" :src="url5" alt="" />
+                <img v-else-if="url5" style="width: 200px;" :src="url5" alt="" />
               </a-upload>
             </a-form-item>
           </a-col>
