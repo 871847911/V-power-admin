@@ -47,7 +47,7 @@
           <x-down v-if="hasPerm('hotCity:export')" ref="batchExport" @batchExport="batchExport" />
         </template>
         <div slot="imgId" slot-scope="text">
-          <img style="width: 200px;" :src="`${BASE_URL}/sysFileInfo/preview?id=${text}`" />
+          <img style="width: 100px;" :src="`${BASE_URL}/sysFileInfo/preview?id=${text}`" />
         </div>
         <span slot="action" slot-scope="text, record">
           <a v-if="hasPerm('hotCity:edit')" @click="$refs.editForm.edit(record)">编辑</a>

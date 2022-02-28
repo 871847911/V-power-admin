@@ -71,7 +71,7 @@
           <x-down v-if="hasPerm('packInfo:export')" ref="batchExport" @batchExport="batchExport" />
         </template>
         <div slot="imgId" slot-scope="text">
-          <img style="width: 200px;" :src="`${BASE_URL}/sysFileInfo/preview?id=${text}`" />
+          <img style="width: 100px;" :src="`${BASE_URL}/sysFileInfo/preview?id=${text}`" />
         </div>
         <span slot="action" slot-scope="text, record">
           <a @click="$refs.setIng.edit(record)">设置</a>

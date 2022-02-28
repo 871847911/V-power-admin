@@ -452,7 +452,7 @@ export default {
       packInfoDetail({ id: record.id }).then(data => {
         roomInfoPage({ bnbId: record.bnbId }).then(res => {
           this.roomTypeList = res.data.rows || []
-          let facilities = record.facilities.split(',')
+          let facilities = record.facilities && record.facilities.split(',')
           facilities = facilities.map(item => Number(item))
           this.roomInfos = data.data || []
           const fangxId = data.data.roomInfos && data.data.roomInfos.map(item => item.id)
