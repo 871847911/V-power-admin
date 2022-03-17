@@ -1,21 +1,5 @@
 <template>
   <a-row :gutter="24">
-    <!-- <a-col :md="5" :sm="24">
-      <a-card :bordered="false" :loading="treeLoading">
-        <div v-if="this.orgTree != ''">
-          <a-tree
-            :treeData="orgTree"
-            v-if="orgTree.length"
-            @select="handleClick"
-            :defaultExpandAll="true"
-            :defaultExpandedKeys="defaultExpandedKeys"
-            :replaceFields="replaceFields" />
-        </div>
-        <div v-else>
-          <a-empty :image="simpleImage" />
-        </div>
-      </a-card>
-    </a-col> -->
     <a-col :md="24" :sm="24">
       <x-card v-if="hasPerm('sysUser:page')">
         <div slot="content" class="table-page-search-wrapper">
@@ -53,22 +37,16 @@
           :rowSelection="options.rowSelection"
         >
           <template slot="operator">
-            <a-button type="primary" v-if="hasPerm('sysUser:add')" icon="plus" @click="$refs.addForm.add()"
-              >新增用户</a-button
+            <a-button type="primary" icon="plus" @click="$refs.addForm.add()">新增用户</a-button>
+            <a-button type="danger" :disabled="selectedRowKeys.length < 1" @click="batchDelete">
+              <a-icon type="delete" />批量删除</a-button
             >
-            <a-button
-              type="danger"
-              :disabled="selectedRowKeys.length < 1"
-              v-if="hasPerm('sysUser:delete')"
-              @click="batchDelete"
-              ><a-icon type="delete" />批量删除</a-button
-            >
-            <x-down v-if="hasPerm('sysUser:export')" ref="batchExport" @batchExport="batchExport" />
+            <x-down ref="batchExport" @batchExport="batchExport" />
           </template>
           <span slot="sex" slot-scope="text">
             {{ sexFilter(text) }}
           </span>
-          <span slot="status" slot-scope="text, record" v-if="hasPerm('sysUser:changeStatus')">
+          <span slot="status" slot-scope="text, record">
             <a-popconfirm
               placement="top"
               :title="text === 0 ? '确定停用该用户？' : '确定启用该用户？'"
@@ -77,31 +55,24 @@
               <a>{{ statusFilter(text) }}</a>
             </a-popconfirm>
           </span>
-          <span slot="status" v-else>
+          <!-- <span slot="status" v-else>
             {{ statusFilter(text) }}
-          </span>
+          </span> -->
           <span slot="action" slot-scope="text, record">
-            <a v-if="hasPerm('sysUser:edit')" @click="$refs.editForm.edit(record)">编辑</a>
-            <a-divider type="vertical" v-if="hasPerm('sysUser:edit')" />
-            <a-dropdown
-              v-if="
-                hasPerm('sysUser:resetPwd') ||
-                  hasPerm('sysUser:grantRole') ||
-                  hasPerm('sysUser:grantData') ||
-                  hasPerm('sysUser:delete')
-              "
-            >
+            <a @click="$refs.editForm.edit(record)">编辑</a>
+            <a-divider type="vertical" />
+            <a-dropdown>
               <a class="ant-dropdown-link"> 更多 <a-icon type="down" /> </a>
               <a-menu slot="overlay">
-                <a-menu-item v-if="hasPerm('sysUser:resetPwd')">
+                <a-menu-item>
                   <a-popconfirm placement="topRight" title="确认重置密码？" @confirm="() => resetPwd(record)">
                     <a>重置密码</a>
                   </a-popconfirm>
                 </a-menu-item>
-                <!-- <a-menu-item v-if="hasPerm('sysUser:grantRole')">
-                  <a @click="$refs.userRoleForm.userRole(record)">追加保证金</a>
-                </a-menu-item> -->
-                <a-menu-item v-if="hasPerm('sysUser:delete')">
+                <a-menu-item>
+                  <a @click="$refs.userRoleForm.userRole(record)">余额初始化</a>
+                </a-menu-item>
+                <a-menu-item>
                   <a-popconfirm placement="topRight" title="确认删除？" @confirm="() => singleDelete(record)">
                     <a>删除</a>
                   </a-popconfirm>
@@ -164,15 +135,15 @@ export default {
         },
         {
           title: '保证金',
-          dataIndex: 'phone1'
+          dataIndex: 'guaranteeMoney'
         },
         {
           title: '金米粒',
-          dataIndex: 'phone2'
+          dataIndex: 'gold'
         },
         {
           title: '平台房费',
-          dataIndex: 'phone3'
+          dataIndex: 'roomRate'
         },
         {
           title: '状态',
@@ -182,7 +153,7 @@ export default {
       ],
       // 加载数据方法 必须为 Promise 对象
       loadData: parameter => {
-        return getUserPage(Object.assign(parameter, this.queryParam)).then(res => {
+        return getUserPage(Object.assign(parameter, this.queryParam, { searchStatus: 0 })).then(res => {
           return res.data
         })
       },
@@ -229,20 +200,12 @@ export default {
     //   }
     // })
     this.sysDictTypeDropDown()
-    if (
-      this.hasPerm('sysUser:edit') ||
-      this.hasPerm('sysUser:resetPwd') ||
-      this.hasPerm('sysUser:grantRole') ||
-      this.hasPerm('sysUser:grantData') ||
-      this.hasPerm('sysUser:delete')
-    ) {
-      this.columns.push({
-        title: '操作',
-        width: '150px',
-        dataIndex: 'action',
-        scopedSlots: { customRender: 'action' }
-      })
-    }
+    this.columns.push({
+      title: '操作',
+      width: '150px',
+      dataIndex: 'action',
+      scopedSlots: { customRender: 'action' }
+    })
   },
   methods: {
     sexFilter(sex) {

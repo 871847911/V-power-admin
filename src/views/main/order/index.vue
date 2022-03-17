@@ -61,7 +61,7 @@
 
 <script>
 import { STable, XCard, XDown } from '@/components'
-// import { sysPosPage, sysPosDelete, sysPosExport } from '@/api/modular/system/posManage'
+import { orderGeneralPage } from '@/api/modular/main/Orders/orders'
 
 export default {
   components: {
@@ -99,19 +99,9 @@ export default {
       ],
       // 加载数据方法 必须为 Promise 对象
       loadData: parameter => {
-        return new Promise(resolve => {
-          resolve({
-            pageNo: 1,
-            pageSize: 10,
-            totalPage: 1,
-            totalRows: 4,
-            rows: [{ name: '民宿1', user: '求玮', phone: '18405818220', remark: '这是备注' }]
-          })
+        return orderGeneralPage(Object.assign(parameter, this.queryParam)).then(res => {
+          return res.data
         })
-
-        // return sysPosPage(Object.assign(parameter, this.queryParam)).then(res => {
-        //   return res.data
-        // })
       },
       selectedRowKeys: [],
       selectedRows: [],

@@ -36,7 +36,7 @@
           <a-col :md="12" :sm="24">
             <a-form-item label="负责人" :labelCol="labelCol" :wrapperCol="wrapperCol" has-feedback>
               <a-input
-                placeholder="请输入具体地址"
+                placeholder="请输入负责人"
                 v-decorator="['principal', { rules: [{ required: true, message: '请输入负责人！' }] }]"
               />
             </a-form-item>

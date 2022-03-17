@@ -303,8 +303,8 @@ export default {
     edit(record) {
       this.confirmLoading = true
       this.visible = true
-      this.getOrgData()
-      this.getPosList()
+      // this.getOrgData()
+      // this.getPosList()
       // 基本信息加人表单
       setTimeout(() => {
         this.form.setFieldsValue({

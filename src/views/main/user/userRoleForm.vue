@@ -1,117 +1,100 @@
 <template>
   <a-modal
-    title="授权角色"
-    :width="800"
+    title="余额初始化"
+    :width="600"
     :visible="visible"
     :confirmLoading="confirmLoading"
     @ok="handleSubmit"
     @cancel="handleCancel"
   >
-
-    <a-card :bordered="false">
-
-      <div>
-        <a-table
-          size="middle"
-          :row-selection="{ selectedRowKeys: selectedRowKeys, onChange: onSelectChange }"
-          :columns="columns"
-          :dataSource="loadData"
-          :pagination="false"
-          :loading="loading"
-          :rowKey="(record) => record.id"
-        />
-      </div>
-
-    </a-card>
-
+    <a-spin :spinning="confirmLoading">
+      <a-form :form="form">
+        <a-form-item label="保证金额度" :labelCol="labelCol" :wrapperCol="wrapperCol" has-feedback>
+          <a-input
+            placeholder="请输入保证金额度"
+            v-decorator="['bailVal', { rules: [{ required: true, message: '请输入保证金额度！' }] }]"
+          />
+        </a-form-item>
+        <a-form-item label="金米粒额度" :labelCol="labelCol" :wrapperCol="wrapperCol" has-feedback>
+          <a-input
+            placeholder="请输入金米粒额度"
+            v-decorator="['goldVal', { rules: [{ required: true, message: '请输入金米粒额度！' }] }]"
+          />
+        </a-form-item>
+        <a-form-item label="房费额度" :labelCol="labelCol" :wrapperCol="wrapperCol" has-feedback>
+          <a-input
+            placeholder="请输入房费额度"
+            v-decorator="['roomRateVal', { rules: [{ required: true, message: '请输入房费额度！' }] }]"
+          />
+        </a-form-item>
+      </a-form>
+    </a-spin>
   </a-modal>
 </template>
 
 <script>
-  import { getRolePage } from '@/api/modular/system/roleManage'
-  import { sysUserOwnRole, sysUserGrantRole } from '@/api/modular/system/userManage'
-
-  const columns = [
-    {
-      title: '角色名称',
-      dataIndex: 'name'
-    },
-    {
-      title: '唯一编码',
-      dataIndex: 'code'
+import { initializeBalance } from '@/api/modular/main/user/userManage'
+export default {
+  data() {
+    return {
+      labelCol: {
+        xs: { span: 24 },
+        sm: { span: 5 }
+      },
+      wrapperCol: {
+        xs: { span: 24 },
+        sm: { span: 15 }
+      },
+      visible: false,
+      confirmLoading: false,
+      form: this.$form.createForm(this),
+      record: {}
     }
-  ]
-
-  export default {
-    name: 'UserRoleIndex',
-
-    data () {
-      return {
-        columns,
-        loadData: [],
-        selectedRowKeys: [], // Check here to configure the default column
-        loading: true,
-        visible: false,
-        confirmLoading: false,
-        recordEntity: []
-      }
+  },
+  methods: {
+    // 初始化方法
+    userRole(record) {
+      this.visible = true
+      this.record = record
     },
-    computed: {
-      hasSelected () {
-        return this.selectedRowKeys.length > 0
-      }
+    /**
+     * 提交表单
+     */
+    handleSubmit() {
+      const {
+        form: { validateFields }
+      } = this
+      this.confirmLoading = true
+      validateFields((errors, values) => {
+        if (!errors) {
+          for (const key in values) {
+            if (typeof values[key] === 'object' && values[key] != null) {
+              values[key] = JSON.stringify(values[key])
+            }
+          }
+          initializeBalance({ ...values, userId: this.record.id })
+            .then(res => {
+              if (res.success) {
+                this.$message.success('新增成功')
+                this.confirmLoading = false
+                this.$emit('ok', values)
+                this.handleCancel()
+              } else {
+                this.$message.error('新增失败') // + res.message
+              }
+            })
+            .finally(res => {
+              this.confirmLoading = false
+            })
+        } else {
+          this.confirmLoading = false
+        }
+      })
     },
-    methods: {
-      // 初始化方法
-      userRole (record) {
-        this.recordEntity = record
-        this.visible = true
-        // 加载已有数据
-        this.sysUserOwnRole()
-        // 获取全部列表,无需分页
-        getRolePage().then((res) => {
-          this.loadData = res.data.rows
-        })
-      },
-
-      /**
-       * 获取用户已有角色
-       */
-      sysUserOwnRole () {
-        this.loading = true
-        sysUserOwnRole({ id: this.recordEntity.id }).then((res) => {
-          // 选中多选框
-          this.selectedRowKeys = res.data
-          this.loading = false
-        })
-      },
-
-      onSelectChange (selectedRowKeys) {
-        this.selectedRowKeys = selectedRowKeys
-      },
-
-      handleSubmit () {
-        // eslint-disable-next-line no-unused-expressions
-        this.confirmLoading = false
-        this.visible = false
-        sysUserGrantRole({ id: this.recordEntity.id, grantRoleIdList: this.selectedRowKeys }).then((res) => {
-               if (res.success) {
-                 this.$message.success('授权成功')
-                 this.confirmLoading = false
-                 this.$emit('ok', this.recordEntity)
-                 this.handleCancel()
-               } else {
-                 this.$message.error('授权失败：' + res.message)
-               }
-             }).finally((res) => {
-               this.confirmLoading = false
-             })
-      },
-      handleCancel () {
-        this.recordEntity = []
-        this.selectedRowKeys = []
-        this.visible = false
-      }
+    handleCancel() {
+      this.form.resetFields()
+      this.visible = false
     }
   }
+}
 </script>

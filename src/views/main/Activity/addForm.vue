@@ -127,6 +127,12 @@
             v-decorator="['scale', { rules: [{ required: true, message: '请输入膨胀金额！' }] }]"
           />
         </a-form-item>
+        <a-form-item label="可膨胀数量" :labelCol="labelCol" :wrapperCol="wrapperCol" has-feedback>
+          <a-input
+            placeholder="请输入可膨胀数量"
+            v-decorator="['scaleAmt;', { rules: [{ required: true, message: '请输入可膨胀数量！' }] }]"
+          />
+        </a-form-item>
         <a-form-item label="销量" :labelCol="labelCol" :wrapperCol="wrapperCol" has-feedback>
           <a-input placeholder="请输入销量" v-decorator="['sellAmt']" />
         </a-form-item>

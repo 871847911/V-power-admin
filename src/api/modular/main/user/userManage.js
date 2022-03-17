@@ -224,3 +224,17 @@ export function sysUserUpdateInfo(parameter) {
     data: parameter
   })
 }
+
+/**
+ * 余额初始化
+ *
+ * @author yubaoshan
+ * @date 2020/9/20 03:12
+ */
+export function initializeBalance(parameter) {
+  return axios({
+    url: '/sysUserExtend/initializeBalance',
+    method: 'post',
+    data: parameter
+  })
+}

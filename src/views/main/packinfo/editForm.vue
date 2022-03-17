@@ -1,7 +1,7 @@
 <template>
   <a-modal
     title="编辑套餐信息"
-    :width="1200"
+    :width="900"
     :visible="visible"
     :confirmLoading="confirmLoading"
     @ok="handleSubmit"
@@ -26,8 +26,9 @@
           <a-col :md="12" :sm="24">
             <a-form-item label="关联分类" :labelCol="labelCol" :wrapperCol="wrapperCol" has-feedback>
               <a-select
+                allowClear
                 placeholder="请选择关联分类"
-                v-decorator="['category', { rules: [{ required: true, message: '请选择关联分类！' }] }]"
+                v-decorator="['category', { rules: [{ required: false, message: '请选择关联分类！' }] }]"
               >
                 <a-select-option v-for="item in typeList" :key="item.id" :value="item.id">{{
                   item.name
@@ -50,22 +51,12 @@
               </a-select>
             </a-form-item>
           </a-col>
-          <a-col :md="4" :sm="24"> </a-col>
-        </a-row>
-        <a-row :gutter="24">
           <a-col :md="12" :sm="24">
-            <a-form-item label="主标题" :labelCol="labelCol" :wrapperCol="wrapperCol" has-feedback>
-              <a-input
-                placeholder="请输入主标题"
-                v-decorator="['mainTitle', { rules: [{ required: true, message: '请输入主标题！' }] }]"
-              />
-            </a-form-item>
-          </a-col>
-          <a-col :md="12" :sm="24">
-            <a-form-item label="副标题" :labelCol="labelCol" :wrapperCol="wrapperCol" has-feedback>
-              <a-input
-                placeholder="请输入副标题"
-                v-decorator="['viceTitle', { rules: [{ required: true, message: '请输入副标题！' }] }]"
+            <a-form-item label="跨天数" :labelCol="labelCol" :wrapperCol="wrapperCol" has-feedback>
+              <a-input-number
+                placeholder="请输入跨天数"
+                style="width: 100%"
+                v-decorator="['dayCount', { rules: [{ required: true, message: '请输入跨天数！' }] }]"
               />
             </a-form-item>
           </a-col>
@@ -77,6 +68,9 @@
                 placeholder="请选择商品状态"
                 v-decorator="['status', { rules: [{ required: true, message: '请选择商品状态！' }] }]"
               >
+                <!-- <a-select-option v-for="item in typeDictTypeDropDown" :key="item.id" :value="item.id">{{
+              item.name
+            }}</a-select-option> -->
                 <a-select-option :key="1" :value="1">下架</a-select-option>
                 <a-select-option :key="2" :value="2">上架</a-select-option>
               </a-select>
@@ -91,6 +85,44 @@
               />
             </a-form-item>
           </a-col>
+        </a-row>
+        <a-row :gutter="24">
+          <a-form-item
+            label="主标题"
+            :labelCol="{
+              xs: { span: 24 },
+              sm: { span: 4 }
+            }"
+            :wrapperCol="{
+              xs: { span: 24 },
+              sm: { span: 19 }
+            }"
+            has-feedback
+          >
+            <a-input
+              placeholder="请输入主标题"
+              v-decorator="['mainTitle', { rules: [{ required: true, message: '请输入主标题！' }] }]"
+            />
+          </a-form-item>
+        </a-row>
+        <a-row :gutter="24">
+          <a-form-item
+            label="副标题"
+            :labelCol="{
+              xs: { span: 24 },
+              sm: { span: 4 }
+            }"
+            :wrapperCol="{
+              xs: { span: 24 },
+              sm: { span: 19 }
+            }"
+            has-feedback
+          >
+            <a-input
+              placeholder="请输入副标题"
+              v-decorator="['viceTitle', { rules: [{ required: true, message: '请输入副标题！' }] }]"
+            />
+          </a-form-item>
         </a-row>
         <a-row :gutter="24">
           <a-col :md="12" :sm="24"
@@ -328,11 +360,11 @@ export default {
       roomTypeList: [],
       labelCol: {
         xs: { span: 24 },
-        sm: { span: 5 }
+        sm: { span: 8 }
       },
       wrapperCol: {
         xs: { span: 24 },
-        sm: { span: 15 }
+        sm: { span: 16 }
       },
       visible: false,
       confirmLoading: false,
@@ -462,6 +494,7 @@ export default {
               bnbId: record.bnbId,
               category: record.category,
               defaultPrice: record.defaultPrice,
+              dayCount: record.dayCount,
               defaultStock: record.defaultStock,
               description: record.description,
               facilities,
