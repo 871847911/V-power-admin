@@ -130,7 +130,7 @@
         <a-form-item label="可膨胀数量" :labelCol="labelCol" :wrapperCol="wrapperCol" has-feedback>
           <a-input
             placeholder="请输入可膨胀数量"
-            v-decorator="['scaleAmt;', { rules: [{ required: true, message: '请输入可膨胀数量！' }] }]"
+            v-decorator="['scaleAmt', { rules: [{ required: true, message: '请输入可膨胀数量！' }] }]"
           />
         </a-form-item>
         <a-form-item label="销量" :labelCol="labelCol" :wrapperCol="wrapperCol" has-feedback>

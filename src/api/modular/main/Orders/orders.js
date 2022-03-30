@@ -2,7 +2,7 @@ import { axios } from '@/utils/request'
 
 export function orderGeneralPage(parameter) {
   return axios({
-    url: '/orderGeneral/list',
+    url: '/checkInOrder/queryCheckInOrderList',
     method: 'get',
     params: parameter
   })

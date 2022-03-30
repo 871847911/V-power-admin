@@ -107,12 +107,12 @@
         <a-row :gutter="24">
           <a-col :md="12" :sm="24">
             <a-form-item label="纬度" :labelCol="labelCol" :wrapperCol="wrapperCol" has-feedback>
-              <a-input placeholder="请输入纬度" v-decorator="['Xvalue']" />
+              <a-input placeholder="请输入纬度" v-decorator="['lat']" />
             </a-form-item>
           </a-col>
           <a-col :md="12" :sm="24">
             <a-form-item label="经度" :labelCol="labelCol" :wrapperCol="wrapperCol" has-feedback>
-              <a-input placeholder="请输入经度" v-decorator="['Yvalue']" />
+              <a-input placeholder="请输入经度" v-decorator="['lng']" />
             </a-form-item>
           </a-col>
         </a-row>
