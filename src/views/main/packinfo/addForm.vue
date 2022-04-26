@@ -100,6 +100,58 @@
           </a-form-item>
         </a-row>
         <a-row :gutter="24">
+          <a-col :md="12" :sm="24"
+            ><a-form-item label="套餐开始时间" :labelCol="labelCol" :wrapperCol="wrapperCol" has-feedback>
+              <a-date-picker
+                :show-time="{ format: 'HH:mm' }"
+                format="YYYY-MM-DD HH:mm"
+                style="width: 100%"
+                placeholder="请选择套餐开始时间"
+                v-decorator="['startTime', { rules: [{ required: true, message: '请选择套餐开始时间！' }] }]"
+                @change="startDtOnChange"
+              />
+            </a-form-item>
+          </a-col>
+          <a-col :md="12" :sm="24"
+            ><a-form-item label="套餐结束时间" :labelCol="labelCol" :wrapperCol="wrapperCol" has-feedback>
+              <a-date-picker
+                :show-time="{ format: 'HH:mm' }"
+                format="YYYY-MM-DD HH:mm"
+                style="width: 100%"
+                placeholder="请选择套餐结束时间"
+                v-decorator="['endTime', { rules: [{ required: true, message: '请选择套餐结束时间！' }] }]"
+                @change="endDtOnChange"
+              />
+            </a-form-item>
+          </a-col>
+        </a-row>
+        <a-row :gutter="24">
+          <a-col :md="12" :sm="24"
+            ><a-form-item label="券开始时间	" :labelCol="labelCol" :wrapperCol="wrapperCol" has-feedback>
+              <a-date-picker
+                :show-time="{ format: 'HH:mm' }"
+                format="YYYY-MM-DD HH:mm"
+                style="width: 100%"
+                placeholder="请选择券开始时间	"
+                v-decorator="['couponStartTime', { rules: [{ required: true, message: '请选择券开始时间	！' }] }]"
+                @change="exclusiveStartDtChange"
+              />
+            </a-form-item>
+          </a-col>
+          <a-col :md="12" :sm="24"
+            ><a-form-item label="券结束时间" :labelCol="labelCol" :wrapperCol="wrapperCol" has-feedback>
+              <a-date-picker
+                :show-time="{ format: 'HH:mm' }"
+                format="YYYY-MM-DD HH:mm"
+                style="width: 100%"
+                placeholder="请选择券结束时间"
+                v-decorator="['couponEndTime', { rules: [{ required: true, message: '请选择券结束时间	！' }] }]"
+                @change="exclusiveEndDtOnChange"
+              />
+            </a-form-item>
+          </a-col>
+        </a-row>
+        <a-row :gutter="24">
           <a-col :md="12" :sm="24">
             <a-form-item label="商品状态" :labelCol="labelCol" :wrapperCol="wrapperCol" has-feedback>
               <a-select
@@ -184,6 +236,17 @@
               <a-input
                 placeholder="请输入VR"
                 v-decorator="['vr', { rules: [{ required: true, message: '请输入VR！' }] }]"
+              />
+            </a-form-item>
+          </a-col>
+        </a-row>
+        <a-row :gutter="24">
+          <a-col :md="12" :sm="24">
+            <a-form-item label="订单必读" :labelCol="labelCol" :wrapperCol="wrapperCol" has-feedback>
+              <a-input
+                placeholder="请输入订单必读"
+                style="width: 100%"
+                v-decorator="['orderMustRead', { rules: [{ required: true, message: '请输入订单必读	！' }] }]"
               />
             </a-form-item>
           </a-col>
@@ -352,7 +415,11 @@ export default {
       },
       visible: false,
       confirmLoading: false,
-      form: this.$form.createForm(this)
+      form: this.$form.createForm(this),
+      endDtDateString: '',
+      startDtDateString: '',
+      exclusiveStartDt: '',
+      exclusiveEndDt: ''
     }
   },
   props: {
@@ -373,6 +440,18 @@ export default {
     }
   },
   methods: {
+    endDtOnChange(date, dateString) {
+      this.endDtDateString = dateString
+    },
+    startDtOnChange(date, dateString) {
+      this.startDtDateString = dateString
+    },
+    exclusiveStartDtChange(date, dateString) {
+      this.exclusiveStartDt = dateString
+    },
+    exclusiveEndDtOnChange(date, dateString) {
+      this.exclusiveEndDt = dateString
+    },
     // 初始化方法
     normFiles(e) {
       if (e.file.status === 'uploading') {
@@ -479,6 +558,10 @@ export default {
           list.map(item => {
             packRoomParams.push({ roomId: item })
           })
+          values.endTime = this.endDtDateString || null
+          values.startTime = this.startDtDateString || null
+          values.couponStartTime = this.exclusiveStartDt || null
+          values.couponEndTime = this.exclusiveEndDt || null
           const params = {
             ...values,
             facilities: JSON.parse(values.facilities).join(','),
@@ -516,6 +599,14 @@ export default {
       this.fileList4 = []
       this.fileList5 = []
       this.visible = false
+      this.form.getFieldDecorator('endTime', { initialValue: null })
+      this.startDtDateString = ''
+      this.form.getFieldDecorator('startTime', { initialValue: null })
+      this.exclusiveStartDt = ''
+      this.form.getFieldDecorator('couponStartTime', { initialValue: null })
+      this.exclusiveEndDt = ''
+      this.form.getFieldDecorator('couponEndTime', { initialValue: null })
+      this.form.resetFields()
     }
   }
 }

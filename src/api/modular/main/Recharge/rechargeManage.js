@@ -98,3 +98,17 @@ export function rechargeApproval(parameter) {
     data: parameter
   })
 }
+
+/**
+ * 退款审核
+ *
+ * @author Lvyq
+ * @date 2022-01-19 11:03:30
+ */
+export function approvalRefund(parameter) {
+  return axios({
+    url: '/orderGeneral/approvalRefund',
+    method: 'post',
+    data: parameter
+  })
+}

@@ -138,7 +138,7 @@ export default {
           title: '订单状态',
           dataIndex: 'order_status',
           customRender: text => {
-            const list = ['已支付', '已使用', '待入住', '已入住', '已离店', '已预约']
+            const list = ['已支付', '已使用', '待入住', '已入住', '已离店', '已预约', '申请退款中', '已退款']
             return list[text]
           }
         }

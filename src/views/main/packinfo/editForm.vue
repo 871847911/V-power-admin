@@ -126,6 +126,58 @@
         </a-row>
         <a-row :gutter="24">
           <a-col :md="12" :sm="24"
+            ><a-form-item label="套餐开始时间" :labelCol="labelCol" :wrapperCol="wrapperCol" has-feedback>
+              <a-date-picker
+                :show-time="{ format: 'HH:mm' }"
+                format="YYYY-MM-DD HH:mm"
+                style="width: 100%"
+                placeholder="请选择套餐开始时间"
+                v-decorator="['startTime', { rules: [{ required: true, message: '请选择套餐开始时间！' }] }]"
+                @change="startDtOnChange"
+              />
+            </a-form-item>
+          </a-col>
+          <a-col :md="12" :sm="24"
+            ><a-form-item label="套餐结束时间" :labelCol="labelCol" :wrapperCol="wrapperCol" has-feedback>
+              <a-date-picker
+                :show-time="{ format: 'HH:mm' }"
+                format="YYYY-MM-DD HH:mm"
+                style="width: 100%"
+                placeholder="请选择套餐结束时间"
+                v-decorator="['endTime', { rules: [{ required: true, message: '请选择套餐结束时间！' }] }]"
+                @change="endDtOnChange"
+              />
+            </a-form-item>
+          </a-col>
+        </a-row>
+        <a-row :gutter="24">
+          <a-col :md="12" :sm="24"
+            ><a-form-item label="券开始时间	" :labelCol="labelCol" :wrapperCol="wrapperCol" has-feedback>
+              <a-date-picker
+                :show-time="{ format: 'HH:mm' }"
+                format="YYYY-MM-DD HH:mm"
+                style="width: 100%"
+                placeholder="请选择券开始时间	"
+                v-decorator="['couponStartTime', { rules: [{ required: true, message: '请选择券开始时间	！' }] }]"
+                @change="exclusiveStartDtChange"
+              />
+            </a-form-item>
+          </a-col>
+          <a-col :md="12" :sm="24"
+            ><a-form-item label="券结束时间" :labelCol="labelCol" :wrapperCol="wrapperCol" has-feedback>
+              <a-date-picker
+                :show-time="{ format: 'HH:mm' }"
+                format="YYYY-MM-DD HH:mm"
+                style="width: 100%"
+                placeholder="请选择券结束时间"
+                v-decorator="['couponEndTime', { rules: [{ required: true, message: '请选择券结束时间	！' }] }]"
+                @change="exclusiveEndDtOnChange"
+              />
+            </a-form-item>
+          </a-col>
+        </a-row>
+        <a-row :gutter="24">
+          <a-col :md="12" :sm="24"
             ><a-form-item label="默认库存" :labelCol="labelCol" :wrapperCol="wrapperCol" has-feedback>
               <a-input-number
                 placeholder="请输入默认库存"
@@ -184,6 +236,17 @@
               <a-input
                 placeholder="请输入VR"
                 v-decorator="['vr', { rules: [{ required: true, message: '请输入VR！' }] }]"
+              />
+            </a-form-item>
+          </a-col>
+        </a-row>
+        <a-row :gutter="24">
+          <a-col :md="12" :sm="24">
+            <a-form-item label="订单必读" :labelCol="labelCol" :wrapperCol="wrapperCol" has-feedback>
+              <a-input
+                placeholder="请输入订单必读"
+                style="width: 100%"
+                v-decorator="['orderMustRead', { rules: [{ required: true, message: '请输入订单必读	！' }] }]"
               />
             </a-form-item>
           </a-col>
@@ -335,6 +398,7 @@ import { packInfoEdit, packInfoDetail } from '@/api/modular/main/packinfo/packIn
 import { roomInfoPage } from '@/api/modular/main/RoomInfo/roomInfoManage'
 import Vue from 'vue'
 import { ACCESS_TOKEN } from '@/store/mutation-types'
+import moment from 'moment'
 const token = Vue.ls.get(ACCESS_TOKEN)
 export default {
   data() {
@@ -368,7 +432,11 @@ export default {
       },
       visible: false,
       confirmLoading: false,
-      form: this.$form.createForm(this)
+      form: this.$form.createForm(this),
+      endDtDateString: '',
+      startDtDateString: '',
+      exclusiveStartDt: '',
+      exclusiveEndDt: ''
     }
   },
   props: {
@@ -386,6 +454,18 @@ export default {
     }
   },
   methods: {
+    endDtOnChange(date, dateString) {
+      this.endDtDateString = dateString
+    },
+    startDtOnChange(date, dateString) {
+      this.startDtDateString = dateString
+    },
+    exclusiveStartDtChange(date, dateString) {
+      this.exclusiveStartDt = dateString
+    },
+    exclusiveEndDtOnChange(date, dateString) {
+      this.exclusiveEndDt = dateString
+    },
     // 初始化方法
     normFiles(e) {
       if (e.file.status === 'uploading') {
@@ -481,6 +561,10 @@ export default {
     // 初始化方法
     edit(record) {
       this.visible = true
+      this.endDtDateString = record.endTime
+      this.startDtDateString = record.startTime
+      this.exclusiveStartDt = record.couponStartTime
+      this.exclusiveEndDt = record.couponEndTime
       packInfoDetail({ id: record.id }).then(data => {
         roomInfoPage({ bnbId: record.bnbId }).then(res => {
           this.roomTypeList = res.data.rows || []
@@ -490,6 +574,7 @@ export default {
           const fangxId = data.data.roomInfos && data.data.roomInfos.map(item => item.id)
           setTimeout(() => {
             this.form.setFieldsValue({
+              orderMustRead: record.orderMustRead,
               fangxId: fangxId,
               bnbId: record.bnbId,
               category: record.category,
@@ -519,6 +604,30 @@ export default {
           this.url5 = `${this.BASE_URL}/sysFileInfo/preview?id=${record.useExplanationId}`
         })
       })
+      // 时间单独处理
+      if (record.endTime) {
+        this.form.getFieldDecorator('endTime', { initialValue: moment(record.endTime, 'YYYY-MM-DD HH:mm') })
+        this.endDtDateString = moment(record.endTime).format('YYYY-MM-DD HH:mm')
+      }
+      // 时间单独处理
+      if (record.startTime) {
+        this.form.getFieldDecorator('startTime', { initialValue: moment(record.startTime, 'YYYY-MM-DD HH:mm') })
+        this.startDtDateString = moment(record.startTime).format('YYYY-MM-DD HH:mm')
+      }
+      // 时间单独处理
+      if (record.couponStartTime) {
+        this.form.getFieldDecorator('couponStartTime', {
+          initialValue: moment(record.couponStartTime, 'YYYY-MM-DD HH:mm')
+        })
+        this.exclusiveStartDt = moment(record.couponStartTime).format('YYYY-MM-DD HH:mm')
+      }
+      // 时间单独处理
+      if (record.couponEndTime) {
+        this.form.getFieldDecorator('couponEndTime', {
+          initialValue: moment(record.couponEndTime, 'YYYY-MM-DD HH:mm')
+        })
+        this.exclusiveEndDt = moment(record.couponEndTime).format('YYYY-MM-DD HH:mm')
+      }
     },
     handleSubmit() {
       const {
@@ -537,7 +646,10 @@ export default {
           list.map(item => {
             packRoomParams.push({ roomId: item })
           })
-          console.log(values)
+          values.endTime = this.endDtDateString || null
+          values.startTime = this.startDtDateString || null
+          values.couponStartTime = this.exclusiveStartDt || null
+          values.couponEndTime = this.exclusiveEndDt || null
           const params = {
             ...values,
             facilities: JSON.parse(values.facilities).join(','),

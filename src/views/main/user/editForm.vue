@@ -431,11 +431,12 @@ export default {
       const {
         form: { validateFields }
       } = this
-      this.confirmLoading = true
+      // this.confirmLoading = true
       validateFields((errors, values) => {
+        console.log(!errors, values)
         if (!errors) {
           this.JsonReconsitution()
-          values.sysEmpParam['extIds'] = this.sysEmpParamExtList
+          // values.sysEmpParam['extIds'] = this.sysEmpParamExtList
           // eslint-disable-next-line eqeqeq
           if (this.birthdayString == 'Invalid date') {
             this.birthdayString = null
