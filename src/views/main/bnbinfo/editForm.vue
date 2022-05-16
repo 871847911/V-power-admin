@@ -136,7 +136,14 @@
               />
             </a-form-item>
           </a-col>
-          <a-col :md="12" :sm="24"> </a-col>
+          <a-col :md="12" :sm="24">
+            <a-form-item label="关于我们" :labelCol="labelCol" :wrapperCol="wrapperCol" has-feedback>
+              <a-input
+                placeholder="请输入关于我们"
+                v-decorator="['aboutUs', { rules: [{ required: true, message: '请输入关于我们！' }] }]"
+              />
+            </a-form-item>
+          </a-col>
         </a-row>
         <a-row :gutter="24">
           <a-col :md="12" :sm="24">
@@ -455,6 +462,7 @@ export default {
           principal: record.principal,
           lng: record.lng,
           lat: record.lat,
+          aboutUs: record.aboutUs,
           userId: record.userId,
           block: record.block,
           city: record.city,
@@ -462,8 +470,6 @@ export default {
           description: record.description,
           district: record.district,
           id: record.id,
-          lat: record.lat,
-          lng: record.lng,
           name: record.name,
           province: record.province,
           tel: record.tel,

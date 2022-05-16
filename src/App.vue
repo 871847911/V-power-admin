@@ -25,7 +25,7 @@ export default {
         const dataList = res.data.rows || []
         if (dataList.some(item => item.status === 1)) {
           notification['info']({
-            message: '有新的退款申请'
+            message: '有待处理的退款申请'
           })
         }
       })
@@ -35,7 +35,7 @@ export default {
         const dataList = res.data.rows || []
         if (dataList.some(item => item.approvalStatus === 0)) {
           notification['info']({
-            message: '有新的订单退款申请'
+            message: '有待处理的订单退款申请'
           })
         }
       })
